@@ -153,7 +153,7 @@ class Interfaccia:
 
         # Crea la label rimanenza
         self.rimanenza = tk.Label(self.InserimentoFluidoOut, text='1')
-        self.rimanenza.grid(row=6, column=3)
+        self.rimanenza.grid(row=5, column=3)
 
         # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
         for quantita_var in self.Quantita_vars:
@@ -256,7 +256,7 @@ class Interfaccia:
 
         # Crea la label rimanenza
         self.rimanenza = tk.Label(self.InserimentoFluido, text='1')
-        self.rimanenza.grid(row=6, column=3)
+        self.rimanenza.grid(row=5, column=3)
 
         # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
         for quantita_var in self.Quantita_vars:
