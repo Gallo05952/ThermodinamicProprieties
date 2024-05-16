@@ -4,10 +4,10 @@ from tkinter import messagebox
 from Funzioni import *
 
 def calculate_h(fluido, p, T):
-    p=(float(p)+1)/10
+    p=(float(p)+1)*10**5
     T=float(T)+273.15
     h = PropsSI('H', 'P', p, 'T', T, fluido)
-    return h
+    return h/1000
 
 def calculate_psat(fluido, T):
     T=float(T)+273.15
