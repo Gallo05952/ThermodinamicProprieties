@@ -475,6 +475,65 @@ class Interfaccia:
         self.ok_button.grid(row=9, column=1)
         self.ok_button.bind('<Button-1>', lambda event: self.cambia_colore(fluido_in))
 
+    def FluidoPsat(self, fluido_in):
+        self.InserimentoFluido = tk.Toplevel(self.root)
+        self.InserimentoFluido.title("Inserimento Fluido")
+        self.InserimentoFluido.geometry("500x300")
+
+        self.LabelFluido = tk.Label(self.InserimentoFluido, text="Inserisci la composizione del fluido")
+        self.LabelFluido.grid(row=0, column=0)
+
+        # Crea una StringVar per ogni Entry
+        self.QuantitaFC1_var = tk.StringVar()
+        self.QuantitaFC2_var = tk.StringVar()
+        self.QuantitaFC3_var = tk.StringVar()
+        self.QuantitaFC4_var = tk.StringVar()
+        self.QuantitaFC5_var = tk.StringVar()
+
+        # Crea una lista di StringVars
+        self.Quantita_vars = [self.QuantitaFC1_var, self.QuantitaFC2_var, self.QuantitaFC3_var, self.QuantitaFC4_var, self.QuantitaFC5_var]
+
+        # Crea una Entry per ogni StringVar
+        self.QuantitaFC1 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC1_var)
+        self.QuantitaFC1.grid(row=1, column=1)
+
+        self.QuantitaFC2 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC2_var)
+        self.QuantitaFC2.grid(row=2, column=1)
+
+        self.QuantitaFC3 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC3_var)
+        self.QuantitaFC3.grid(row=3, column=1)
+
+        self.QuantitaFC4 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC4_var)
+        self.QuantitaFC4.grid(row=4, column=1)
+
+        self.QuantitaFC5 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC5_var)
+        self.QuantitaFC5.grid(row=5, column=1)
+
+        self.FluidoC1=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
+        self.FluidoC1.grid(row=1, column=0)
+
+        self.FluidoC2=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
+        self.FluidoC2.grid(row=2, column=0)
+
+        self.FluidoC3=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
+        self.FluidoC3.grid(row=3, column=0)
+
+        self.FluidoC4=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
+        self.FluidoC4.grid(row=4, column=0)
+
+        self.FluidoC5=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
+        self.FluidoC5.grid(row=5, column=0)
+
+        self.rimanenza = tk.Label(self.InserimentoFluido, text='1')
+        self.rimanenza.grid(row=5, column=3)
+
+        # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
+        for quantita_var in self.Quantita_vars:
+            quantita_var.trace('w', self.aggiorna_rimanenza)
+
+        self.ok_button = tk.Button(self.InserimentoFluido, text="OK", command=self.SalvataggioFluidopSat)
+        self.ok_button.grid(row=9, column=1)
+
     def SalvataggioFluidoTSat(self):
         self.Fluido1=self.FluidoC1.get()
         self.Fluido2=self.FluidoC2.get()
@@ -543,64 +602,7 @@ class Interfaccia:
         )
         self.button_chisura_PSat.grid(row=3, column=0)
 
-    def FluidoPsat(self, fluido_in):
-        self.InserimentoFluido = tk.Toplevel(self.root)
-        self.InserimentoFluido.title("Inserimento Fluido")
-        self.InserimentoFluido.geometry("500x300")
-
-        self.LabelFluido = tk.Label(self.InserimentoFluido, text="Inserisci la composizione del fluido")
-        self.LabelFluido.grid(row=0, column=0)
-
-        # Crea una StringVar per ogni Entry
-        self.QuantitaFC1_var = tk.StringVar()
-        self.QuantitaFC2_var = tk.StringVar()
-        self.QuantitaFC3_var = tk.StringVar()
-        self.QuantitaFC4_var = tk.StringVar()
-        self.QuantitaFC5_var = tk.StringVar()
-
-        # Crea una lista di StringVars
-        self.Quantita_vars = [self.QuantitaFC1_var, self.QuantitaFC2_var, self.QuantitaFC3_var, self.QuantitaFC4_var, self.QuantitaFC5_var]
-
-        # Crea una Entry per ogni StringVar
-        self.QuantitaFC1 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC1_var)
-        self.QuantitaFC1.grid(row=1, column=1)
-
-        self.QuantitaFC2 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC2_var)
-        self.QuantitaFC2.grid(row=2, column=1)
-
-        self.QuantitaFC3 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC3_var)
-        self.QuantitaFC3.grid(row=3, column=1)
-
-        self.QuantitaFC4 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC4_var)
-        self.QuantitaFC4.grid(row=4, column=1)
-
-        self.QuantitaFC5 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC5_var)
-        self.QuantitaFC5.grid(row=5, column=1)
-
-        self.FluidoC1=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC1.grid(row=1, column=0)
-
-        self.FluidoC2=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC2.grid(row=2, column=0)
-
-        self.FluidoC3=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC3.grid(row=3, column=0)
-
-        self.FluidoC4=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC4.grid(row=4, column=0)
-
-        self.FluidoC5=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC5.grid(row=5, column=0)
-
-        self.rimanenza = tk.Label(self.InserimentoFluido, text='1')
-        self.rimanenza.grid(row=5, column=3)
-
-        # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
-        for quantita_var in self.Quantita_vars:
-            quantita_var.trace('w', self.aggiorna_rimanenza)
-
-        self.ok_button = tk.Button(self.InserimentoFluido, text="OK", command=self.SalvataggioFluidopSat)
-        self.ok_button.grid(row=9, column=1)
+    
 
     def SalvataggioFluidopSat(self):
         self.Fluido1=self.FluidoC1.get()
