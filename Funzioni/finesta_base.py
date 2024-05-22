@@ -37,6 +37,7 @@ class Interfaccia:
         self.condizioni_saturazione.grid(row=2, column=0)
 
     def FinestraCondizioniSaturazione(self):
+        from Funzioni.compsat import ComposizioneSaturazione
         self.FinesCondizioniSaturazione = tk.Toplevel(self.root)
         self.FinesCondizioniSaturazione.title("Finestra Condizioni di Saturazione")
         self.FinesCondizioniSaturazione.geometry("400x200")
@@ -60,12 +61,18 @@ class Interfaccia:
         )
         self.Button_Psat.grid(row=2, column=0)
 
+        self.ComposizioneSat = tk.Button(
+            self.FinesCondizioniSaturazione,
+            text="Composizione di Saturazione",
+            command=lambda: ComposizioneSaturazione(self.root).OperazioniIniziali())
+        self.ComposizioneSat.grid(row=3, column=0)
+
         self.ButtonChiusura = tk.Button(
             self.FinesCondizioniSaturazione,
             text="Chiudi",
             command=self.FinesCondizioniSaturazione.destroy
         )
-        self.ButtonChiusura.grid(row=3, column=0)
+        self.ButtonChiusura.grid(row=4, column=0)
 
     def FinestraTsat(self):
         self.FinesTsat = tk.Toplevel(self.root)
