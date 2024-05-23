@@ -472,80 +472,115 @@ class Interfaccia:
     def FluidoIN(self, fluido_in):
         self.InserimentoFluido = tk.Toplevel(self.root)
         self.InserimentoFluido.title("Inserimento Fluido")
-        self.InserimentoFluido.geometry("500x300")
+        self.InserimentoFluido.geometry("420x270")
 
-        self.LabelFluido = tk.Label(self.InserimentoFluido, text="Inserisci la composizione del fluido")
-        self.LabelFluido.grid(row=0, column=0)
+        self.LabelFluido = tk.Label(self.InserimentoFluido,
+                                    text="Inserisci la composizione del fluido",
+                                    font=("Helvetica", 12, "bold"),
+                                    fg="blue")
+        self.LabelFluido.grid(row=0, column=0, columnspan=2)
 
         # Crea una StringVar per ogni Entry
-        self.QuantitaFC1_var = tk.StringVar()
-        self.QuantitaFC2_var = tk.StringVar()
-        self.QuantitaFC3_var = tk.StringVar()
-        self.QuantitaFC4_var = tk.StringVar()
-        self.QuantitaFC5_var = tk.StringVar()
-
+        try:
+            self.QuantitaFC1_var = tk.StringVar()
+            self.QuantitaFC2_var = tk.StringVar()
+            self.QuantitaFC3_var = tk.StringVar()
+            self.QuantitaFC4_var = tk.StringVar()
+            self.QuantitaFC5_var = tk.StringVar()
+        except AttributeError:
+            print("Errore")
         # Crea una lista di StringVars
-        self.Quantita_vars = [self.QuantitaFC1_var, self.QuantitaFC2_var, self.QuantitaFC3_var, self.QuantitaFC4_var, self.QuantitaFC5_var]
+        self.Quantita_vars = [self.QuantitaFC1_var,
+                            self.QuantitaFC2_var,
+                            self.QuantitaFC3_var,
+                            self.QuantitaFC4_var,
+                            self.QuantitaFC5_var]
+
+        # empty row
+        self.riga_vuota = tk.Label(self.InserimentoFluido, text="")
+        self.riga_vuota.grid(row=1, column=0)
 
         # Crea una Entry per ogni StringVar
-        self.QuantitaFC1 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC1_var)
-        self.QuantitaFC1.grid(row=1, column=1)
+        self.QuantitaFC1 = tk.Entry(self.InserimentoFluido, 
+                                    textvariable=self.QuantitaFC1_var)
+        self.QuantitaFC1.grid(row=2, column=1)
 
-        self.QuantitaFC2 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC2_var)
-        self.QuantitaFC2.grid(row=2, column=1)
+        self.QuantitaFC2 = tk.Entry(self.InserimentoFluido,
+                                    textvariable=self.QuantitaFC2_var)
+        self.QuantitaFC2.grid(row=3, column=1)
 
-        self.QuantitaFC3 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC3_var)
-        self.QuantitaFC3.grid(row=3, column=1)
+        self.QuantitaFC3 = tk.Entry(self.InserimentoFluido, 
+                                    textvariable=self.QuantitaFC3_var)
+        self.QuantitaFC3.grid(row=4, column=1)
 
-        self.QuantitaFC4 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC4_var)
-        self.QuantitaFC4.grid(row=4, column=1)
+        self.QuantitaFC4 = tk.Entry(self.InserimentoFluido, 
+                                    textvariable=self.QuantitaFC4_var)
+        self.QuantitaFC4.grid(row=5, column=1)
 
-        self.QuantitaFC5 = tk.Entry(self.InserimentoFluido, textvariable=self.QuantitaFC5_var)
-        self.QuantitaFC5.grid(row=5, column=1)
+        self.QuantitaFC5 = tk.Entry(self.InserimentoFluido, 
+                                    textvariable=self.QuantitaFC5_var)
+        self.QuantitaFC5.grid(row=6, column=1)
 
-        self.FluidoC1=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC1.grid(row=1, column=0)
+        self.FluidoC1=ttk.Combobox(self.InserimentoFluido, 
+                                values=self.fluids)
+        self.FluidoC1.grid(row=2, column=0)
 
-        self.FluidoC2=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC2.grid(row=2, column=0)
+        self.FluidoC2=ttk.Combobox(self.InserimentoFluido,
+                                    values=self.fluids)
+        self.FluidoC2.grid(row=3, column=0)
 
-        self.FluidoC3=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC3.grid(row=3, column=0)
+        self.FluidoC3=ttk.Combobox(self.InserimentoFluido,
+                                    values=self.fluids)
+        self.FluidoC3.grid(row=4, column=0)
 
-        self.FluidoC4=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC4.grid(row=4, column=0)
+        self.FluidoC4=ttk.Combobox(self.InserimentoFluido,
+                                    values=self.fluids)
+        self.FluidoC4.grid(row=5, column=0)
 
-        self.FluidoC5=ttk.Combobox(self.InserimentoFluido, values=self.fluids)
-        self.FluidoC5.grid(row=5, column=0)
+        self.FluidoC5=ttk.Combobox(self.InserimentoFluido,
+                                    values=self.fluids)
+        self.FluidoC5.grid(row=6, column=0)
 
-        self.Fluidopressione=tk.Label(self.InserimentoFluido, text="Inserisci la pressione [barg]")
-        self.Fluidopressione.grid(row=6, column=0)
+        self.Fluidopressione=tk.Label(self.InserimentoFluido, 
+                                text="Inserisci la pressione [barg]",
+                                font=("Helvetica", 10, "bold"))
+        self.Fluidopressione.grid(row=7, column=0)
 
         self.Pressione=tk.Entry(self.InserimentoFluido)
-        self.Pressione.grid(row=6, column=1)
+        self.Pressione.grid(row=7, column=1)
 
-        self.FluidoTemperatura=tk.Label(self.InserimentoFluido, text="Inserisci la temperatura [°C]")
-        self.FluidoTemperatura.grid(row=7, column=0)
+        self.FluidoTemperatura=tk.Label(self.InserimentoFluido,
+                                text="Inserisci la temperatura [°C]",
+                                font=("Helvetica", 10, "bold"))
+        self.FluidoTemperatura.grid(row=8, column=0)
 
         self.Temperatura=tk.Entry(self.InserimentoFluido)
-        self.Temperatura.grid(row=7, column=1)
+        self.Temperatura.grid(row=8, column=1)
 
-        self.FluidoPortata_in=tk.Label(self.InserimentoFluido, text="Inserisci la portata [kg/h]")
-        self.FluidoPortata_in.grid(row=8, column=0)
+        self.FluidoPortata_in=tk.Label(self.InserimentoFluido, 
+                                    text="Inserisci la portata [kg/h]",
+                                    font=("Helvetica", 10, "bold"))
+        self.FluidoPortata_in.grid(row=9, column=0)
 
         self.Portata_in=tk.Entry(self.InserimentoFluido)
-        self.Portata_in.grid(row=8, column=1)
+        self.Portata_in.grid(row=9, column=1)
 
         # Crea la label rimanenza
-        self.rimanenza = tk.Label(self.InserimentoFluido, text='1')
-        self.rimanenza.grid(row=5, column=3)
+        self.rimanenza = tk.Label(self.InserimentoFluido,
+                                text='1',
+                                font=("Helvetica", 10, "bold"))
+        self.rimanenza.grid(row=6, column=3)
 
         # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
         for quantita_var in self.Quantita_vars:
             quantita_var.trace('w', self.aggiorna_rimanenza)
 
-        self.ok_button = tk.Button(self.InserimentoFluido, text="OK", command=self.SalvataggioFluidoIN)
-        self.ok_button.grid(row=9, column=1)
+        self.ok_button = tk.Button(self.InserimentoFluido,
+                                    text="Inserisci", 
+                                    font=("Helvetica", 10, "bold"),
+                                    bg="#D3D3D3",
+                                    command=self.SalvataggioFluidoIN)
+        self.ok_button.grid(row=10, column=1)
         self.ok_button.bind('<Button-1>', lambda event: self.cambia_colore(fluido_in))
 
     def aggiorna_rimanenza(self, *args):
@@ -611,40 +646,43 @@ class Interfaccia:
         self.fluido_results_out = self.get_fluido_results_out()
 
     def SalvataggioFluidoTSat(self):
-        self.Fluido1=self.FluidoC1.get()
-        self.Fluido2=self.FluidoC2.get()
-        self.Fluido3=self.FluidoC3.get()
-        self.Fluido4=self.FluidoC4.get()
-        self.Fluido5=self.FluidoC5.get()
-        self.Quantita1=self.QuantitaFC1_var.get()
-        self.Quantita2=self.QuantitaFC2_var.get()
-        self.Quantita3=self.QuantitaFC3_var.get()
-        self.Quantita4=self.QuantitaFC4_var.get()
-        self.Quantita5=self.QuantitaFC5_var.get()
-        SpecieChimiche=[self.Fluido1, 
-                        self.Fluido2, 
-                        self.Fluido3,
-                        self.Fluido4, 
-                        self.Fluido5]
-        Quantita=[self.Quantita1,
-                self.Quantita2, 
-                self.Quantita3, 
-                self.Quantita4, 
-                self.Quantita5]
-        key = f"Fluido_{len(self.fluido_results_in) + 1}"
-        self.fluido_results_in[key] = (SpecieChimiche, Quantita)
-            # Unisci i componenti e le quantità in una stringa di miscela
-        self.mixtureTsat='&'.join([f"{comp}[{qty}]" for comp, qty in zip(SpecieChimiche, Quantita) if comp and qty])
-        print(f"{key}: {self.mixtureTsat}")
-        fluido=self.mixtureTsat
-        p=self.Pressione_Tsat.get()
         try:
-            Tsat=self.calculate_Tsat(fluido, p)
-            messagebox.showinfo("Risultato", f"Temperatura di Saturazione [°C]: {Tsat}")
-        except ValueError:
-            messagebox.showinfo("Errore", "Condizioni non coperte dal databse")
-        finally:
-            self.FinesCondizioniSaturazione.destroy()
+            self.Fluido1=self.FluidoC1.get()
+            self.Fluido2=self.FluidoC2.get()
+            self.Fluido3=self.FluidoC3.get()
+            self.Fluido4=self.FluidoC4.get()
+            self.Fluido5=self.FluidoC5.get()
+            self.Quantita1=self.QuantitaFC1_var.get()
+            self.Quantita2=self.QuantitaFC2_var.get()
+            self.Quantita3=self.QuantitaFC3_var.get()
+            self.Quantita4=self.QuantitaFC4_var.get()
+            self.Quantita5=self.QuantitaFC5_var.get()
+            SpecieChimiche=[self.Fluido1, 
+                            self.Fluido2, 
+                            self.Fluido3,
+                            self.Fluido4, 
+                            self.Fluido5]
+            Quantita=[self.Quantita1,
+                    self.Quantita2, 
+                    self.Quantita3, 
+                    self.Quantita4, 
+                    self.Quantita5]
+            key = f"Fluido_{len(self.fluido_results_in) + 1}"
+            self.fluido_results_in[key] = (SpecieChimiche, Quantita)
+                # Unisci i componenti e le quantità in una stringa di miscela
+            self.mixtureTsat='&'.join([f"{comp}[{qty}]" for comp, qty in zip(SpecieChimiche, Quantita) if comp and qty])
+            print(f"{key}: {self.mixtureTsat}")
+            fluido=self.mixtureTsat
+            p=self.Pressione_Tsat.get()
+            try:
+                Tsat=self.calculate_Tsat(fluido, p)
+                messagebox.showinfo("Risultato", f"Temperatura di Saturazione [°C]: {Tsat}")
+            except ValueError:
+                messagebox.showinfo("Errore", "Condizioni non coperte dal databse")
+            finally:
+                self.FinesCondizioniSaturazione.destroy()
+        except AttributeError:
+            print("Errore")
 
     def close_window_Tsat(self):
         fluido=self.mixtureTsat
@@ -823,7 +861,7 @@ class Interfaccia:
     def close_window(self):
         try:
             Q_Scambiato=self.calcolo_H()
-            messagebox.showinfo("Risultato", f"Q Scambiato [°C]: {Q_Scambiato}")
+            messagebox.showinfo("Risultato", f"Q Scambiato [kW]: {Q_Scambiato}")
         except ValueError:
             messagebox.showinfo("Errore", "Condizioni non coperte dal databse")
 

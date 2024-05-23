@@ -15,8 +15,10 @@ class ComposizioneSaturazione:
 
     def Calcola(self):
         #! DA MODIFICARE SE VOGLIO UNA PRECIOSIONE MAGGIORE PER LA TEMPERATURA
-        dT=0.5
+        
         Parametri=self.ImportPreferenze()
+        dT=float(Parametri[7])
+        print(Parametri)
         #TROVA LA POSIZIONE IN CUI C'è true IN fcomp
         PosizioneComp=Parametri[4].index(True)
         Intervalli=[Parametri[0], Parametri[1], Parametri[2], Parametri[3]]
@@ -30,9 +32,7 @@ class ComposizioneSaturazione:
         MixturePossibili=[]
         #rimuovi i Booleani da Intervalli
         length=len(Intervalli)
-        for i in range(len(Intervalli)):
-            if Intervalli[i-1] is False:
-                Intervalli.pop(i-1)
+        Intervalli = [intervallo for intervallo in Intervalli if intervallo is not False]
         for i in range(len(Intervalli[0])):
             if len(Intervalli)>1:
                 for j in range(len(Intervalli[1])):
@@ -87,13 +87,15 @@ class ComposizioneSaturazione:
             messagebox.showinfo("Errore", "Seleziona solo un fluido per completare la composizione per differenza")
             return
         #! PARAMETRO DA MODIFICARE SE VOGLIO PIù PUNTI DI PROVA
-        n_punti=50
+        n_punti=10
         self.F1=self.FluidoC1.get()
         self.F2=self.FluidoC2.get()
         self.F3=self.FluidoC3.get()
         self.F4=self.FluidoC4.get()
         self.T=self.entry_T.get()
         self.p=self.entry_p.get()
+        self.dT=self.entry_dT.get()
+        self.n_punti=int(self.entry_n.get())
         self.F1_min=self.QuantitaFC1_var_min.get()
         self.F1_max=self.QuantitaFC1_var_max.get()
         self.F2_min=self.QuantitaFC2_var_min.get()
@@ -107,25 +109,25 @@ class ComposizioneSaturazione:
         if self.F1_min != "" and self.F1_max != "":
             self.F1_min=float(self.F1_min)
             self.F1_max=float(self.F1_max)
-            self.IntervalloF1 = np.linspace(self.F1_min, self.F1_max, num=n_punti)
+            self.IntervalloF1 = np.linspace(self.F1_min, self.F1_max, num=self.n_punti)
         else: self.IntervalloF1 = False
         if self.F2_min != "" and self.F2_max != "":
             self.F2_min=float(self.F2_min)
             self.F2_max=float(self.F2_max)
-            self.IntervalloF2 = np.linspace(self.F2_min, self.F2_max, num=n_punti)
+            self.IntervalloF2 = np.linspace(self.F2_min, self.F2_max, num=self.n_punti)
         else: self.IntervalloF2 = False
         if self.F3_min != "" and self.F3_max != "":
             self.F3_min=float(self.F3_min)
             self.F3_max=float(self.F3_max)
-            self.IntervalloF3 = np.linspace(self.F3_min, self.F3_max, num=n_punti)
+            self.IntervalloF3 = np.linspace(self.F3_min, self.F3_max, num=self.n_punti)
         else: self.IntervalloF3 = False
         if self.F4_min != "" and self.F4_max != "":
             self.F4_min=float(self.F4_min)
             self.F4_max=float(self.F4_max)
-            self.IntervalloF4 = np.linspace(self.F4_min, self.F4_max, num=n_punti)
+            self.IntervalloF4 = np.linspace(self.F4_min, self.F4_max, num=self.n_punti)
         else: self.IntervalloF4 = False
 
-        Par=[self.IntervalloF1, self.IntervalloF2, self.IntervalloF3, self.IntervalloF4, self.FComp, self.T, self.p]
+        Par=[self.IntervalloF1, self.IntervalloF2, self.IntervalloF3, self.IntervalloF4, self.FComp, self.T, self.p, self.dT]
         return Par
 
     def OperazioniIniziali(self):
@@ -149,6 +151,12 @@ class ComposizioneSaturazione:
         self.label_T.grid(row=2, column=0)
         self.entry_T = tk.Entry(self.CompSat)
         self.entry_T.grid(row=2, column=1)
+        self.dT_consentito=tk.Label(self.CompSat,
+                                text="Tolleranza temperatura [°C]",
+                                font=("Helvetica", 12, "bold"))
+        self.dT_consentito.grid(row=2, column=2)
+        self.entry_dT = tk.Entry(self.CompSat)
+        self.entry_dT.grid(row=2, column=3)
 
         self.label_p = tk.Label(self.CompSat, 
                                 text="Pressione [barg]",
@@ -156,6 +164,12 @@ class ComposizioneSaturazione:
         self.label_p.grid(row=3, column=0)
         self.entry_p = tk.Entry(self.CompSat)
         self.entry_p.grid(row=3, column=1)
+        self.n_punti=tk.Label(self.CompSat,
+                                text="Numero di punti di prova",
+                                font=("Helvetica", 12, "bold"))
+        self.n_punti.grid(row=3, column=2)
+        self.entry_n = tk.Entry(self.CompSat)
+        self.entry_n.grid(row=3, column=3)
 
         self.LabelFluido = tk.Label(self.CompSat,
                                     text="Inserisci i range di composizione in cui cercare su base molare [0,1]",
