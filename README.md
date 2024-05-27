@@ -10,7 +10,8 @@ Permette anche di calcolare:
 
 LIBRERIE NECESSARIE
 
-1) CoolProp -> pip install CoolProp
+1) Pyfluids --> pip install pyfluids
+2) CoolProp -> pip install CoolProp
 
  BREVE GUIDA
 
