@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter import ttk
 from tkinter import messagebox
 from CoolProp.CoolProp import FluidsList
+from .autocomplete import AutocompleteCombobox
 
 class Interfaccia:
         
@@ -230,13 +231,13 @@ class Interfaccia:
     def FinestraScambioQ(self):
         self.FinesScambioQ = tk.Toplevel(self.root)
         self.FinesScambioQ.title("Finestra Scambio di Calore")
-        self.FinesScambioQ.geometry("300x250")
+        self.FinesScambioQ.geometry("500x500")
         
         # TITOLO
         self.label_titolo= tk.Label(self.FinesScambioQ,
                                     text="Calcolo delle scambio termico",
                                     font=("Helvetica", 12, "bold"),fg="red")
-        self.label_titolo.grid(row=0, column=0, columnspan=3)
+        self.label_titolo.grid(row=0, column=1, columnspan=3)
 
         #riga vuota
         self.riga_vuota = tk.Label(self.FinesScambioQ,
@@ -247,7 +248,7 @@ class Interfaccia:
         self.label_file_in= tk.Label(self.FinesScambioQ, 
                                     text="Fluidi in input",
                                     font=("Helvetica", 10, "bold"))
-        self.label_file_in.grid(row=2, column=0)
+        self.label_file_in.grid(row=2, column=0, columnspan=2)
         
         # Fluido 1
         self.fluido_in1 = tk.Button(
@@ -256,31 +257,38 @@ class Interfaccia:
             bg="#D3D3D3",
             command=lambda: self.FluidoIN("Fluido1_IN")
         )
-        self.fluido_in1.grid(row=3, column=0)
+        self.fluido_in1.grid(row=3, column=1)
 
-        # Fluido 2
-        self.fluido_in2 = tk.Button(
-            self.FinesScambioQ,
-            text="Fluido2_IN",
-            bg="#D3D3D3",
-            command=lambda: self.FluidoIN("Fluido2_IN")
-        )
-        self.fluido_in2.grid(row=4, column=0)
+        # fluido risultante
+        self.mixture_in1=tk.StringVar()
+        self.fluido_in1_name=tk.Label(self.FinesScambioQ, 
+                                    textvariable=self.mixture_in1)
+        self.fluido_in1_name.grid(row=4, column=1)
 
-        # Fluido 3
-        self.fluido_in3 = tk.Button(
-            self.FinesScambioQ,
-            text="Fluido3_IN",
-            bg="#D3D3D3",
-            command=lambda: self.FluidoIN("Fluido3_IN")
-        )
-        self.fluido_in3.grid(row=5, column=0)
+        self.T_Label=tk.Label(self.FinesScambioQ,
+                            text="Temperatura [°C]")
+        self.T_Label.grid(row=5, column=0)
 
-                # Fluidi input
+        self.T1_in_Entry=tk.Entry(self.FinesScambioQ)
+        self.T1_in_Entry.grid(row=5, column=1)
+
+        self.P_Label=tk.Label(self.FinesScambioQ,
+                            text="Pressione [barg]")
+        self.P_Label.grid(row=6, column=0)
+
+        self.P1_in_Entry=tk.Entry(self.FinesScambioQ)
+        self.P1_in_Entry.grid(row=6, column=1)
+
+        #empty row
+        empty_label2 = tk.Label(self.FinesScambioQ, text="")
+        empty_label2.grid(row=7, column=0)
+
+        # Fluidi output
         self.label_file_in= tk.Label(self.FinesScambioQ,
                                     text="Fluidi in Output",
                                     font=("Helvetica", 10, "bold"))
-        self.label_file_in.grid(row=2, column=1)
+        self.label_file_in.grid(row=8, column=0, columnspan=2)
+
 
         # Fluido 1 Out
         self.fluido_out1 = tk.Button(
@@ -289,7 +297,48 @@ class Interfaccia:
             bg="#D3D3D3",
             command=lambda: self.FluidoOUT("Fluido1_OUT")
         )
-        self.fluido_out1.grid(row=3, column=1)
+        self.fluido_out1.grid(row=9, column=1)
+
+        # fluido risultante
+        self.mixture_out1 = tk.StringVar()
+        self.fluido_out1_name=tk.Label(self.FinesScambioQ,
+                                    textvariable=self.mixture_out1)
+        self.fluido_out1_name.grid(row=10, column=1)
+
+        self.T_Label=tk.Label(self.FinesScambioQ,
+                            text="Temperatura [°C]")
+        self.T_Label.grid(row=11, column=0)
+
+        self.T1_out_Entry=tk.Entry(self.FinesScambioQ)
+        self.T1_out_Entry.grid(row=11, column=1)
+
+        self.P_Label=tk.Label(self.FinesScambioQ,
+                            text="Pressione [barg]")
+        self.P_Label.grid(row=12, column=0)
+
+        self.P1_out_Entry=tk.Entry(self.FinesScambioQ)
+        self.P1_out_Entry.grid(row=12, column=1)
+
+        # Fluido 2
+        self.fluido_in2 = tk.Button(
+            self.FinesScambioQ,
+            text="Fluido2_IN",
+            bg="#D3D3D3",
+            command=lambda: self.FluidoIN("Fluido2_IN")
+        )
+        self.fluido_in2.grid(row=3, column=2)
+
+        #fluido risultante
+        self.mixture_in2=tk.StringVar()
+        self.fluido_in2_name=tk.Label(self.FinesScambioQ,
+                                    textvariable=self.mixture_in2)
+        self.fluido_in2_name.grid(row=4, column=2)
+
+        self.T2_in_Entry=tk.Entry(self.FinesScambioQ)
+        self.T2_in_Entry.grid(row=5, column=2)
+
+        self.P2_in_Entry=tk.Entry(self.FinesScambioQ)
+        self.P2_in_Entry.grid(row=6, column=2)
 
         # Fluido 2 Out
         self.fluido_out2 = tk.Button(
@@ -298,20 +347,61 @@ class Interfaccia:
             bg="#D3D3D3",
             command=lambda: self.FluidoOUT("Fluido2_OUT")
         )
-        self.fluido_out2.grid(row=4, column=1)
+        self.fluido_out2.grid(row=9, column=2)
 
-        # Fluido 3 Out
+        #fluido risultante
+        self.mixture_out2=tk.StringVar()
+        self.fluido_out2_name=tk.Label(self.FinesScambioQ,
+                                    textvariable=self.mixture_out2)
+        self.fluido_out2_name.grid(row=10, column=2)
+
+        self.T2_out_Entry=tk.Entry(self.FinesScambioQ)
+        self.T2_out_Entry.grid(row=11, column=2)
+
+        self.P2_out_Entry=tk.Entry(self.FinesScambioQ)
+        self.P2_out_Entry.grid(row=12, column=2)
+
+        #fluido 3
+        self.fluido_in3 = tk.Button(
+            self.FinesScambioQ,
+            text="Fluido3_IN",
+            bg="#D3D3D3",
+            command=lambda: self.FluidoIN("Fluido3_IN")
+        )
+        self.fluido_in3.grid(row=3, column=3)
+
+        #fluido risultante
+        self.mixture_in3=tk.StringVar()
+        self.fluido_in3_name=tk.Label(self.FinesScambioQ,
+                                    textvariable=self.mixture_in3)
+        self.fluido_in3_name.grid(row=4, column=3)
+
+        self.T3_in_Entry=tk.Entry(self.FinesScambioQ)
+        self.T3_in_Entry.grid(row=5, column=3)
+
+        self.P3_in_Entry=tk.Entry(self.FinesScambioQ)
+        self.P3_in_Entry.grid(row=6, column=3)
+
+        #fluido 3 out
         self.fluido_out3 = tk.Button(
             self.FinesScambioQ,
             text="Fluido3_OUT",
             bg="#D3D3D3",
             command=lambda: self.FluidoOUT("Fluido3_OUT")
         )
-        self.fluido_out3.grid(row=5, column=1)
+        self.fluido_out3.grid(row=9, column=3)
 
-        # Empty row
-        empty_label2 = tk.Label(self.FinesScambioQ, text="")
-        empty_label2.grid(row=6, column=0)
+        #fluido risultante
+        self.mixture_out3=tk.StringVar()
+        self.fluido_out3_name=tk.Label(self.FinesScambioQ,
+                                    textvariable=self.mixture_out3)
+        self.fluido_out3_name.grid(row=10, column=3)
+
+        self.T3_out_Entry=tk.Entry(self.FinesScambioQ)
+        self.T3_out_Entry.grid(row=11, column=3)
+
+        self.P3_out_Entry=tk.Entry(self.FinesScambioQ)
+        self.P3_out_Entry.grid(row=12, column=3)
 
         # OK Button
         self.ok_button_chisura = tk.Button(
@@ -321,14 +411,14 @@ class Interfaccia:
             bg="#D3D3D3",
             command=self.close_window  # replace with the function to be executed
 )
-        self.ok_button_chisura.grid(row=7, column=0)
+        self.ok_button_chisura.grid(row=13, column=2)
 
         self.closeButtonQ = tk.Button(self.FinesScambioQ, 
                                     text="Chiudi",
                                     font=("Helvetica", 10, "bold"),
                                     bg="#D3D3D3",
                                     command=lambda: self.distruggi(self.FinesScambioQ))
-        self.closeButtonQ.grid(row=7, column=1)
+        self.closeButtonQ.grid(row=13, column=3)
 
     def FluidoOUT(self, fluido_out):
         self.InserimentoFluidoOut = tk.Toplevel(self.root)
@@ -383,24 +473,24 @@ class Interfaccia:
                                         textvariable=self.QuantitaFC5_out_var)
         self.QuantitaFC5_out.grid(row=6, column=1)
 
-        self.FluidoC1_out=ttk.Combobox(self.InserimentoFluidoOut, 
-                                    values=self.fluids)
+        self.FluidoC1_out = AutocompleteCombobox(self.InserimentoFluidoOut)
+        self.FluidoC1_out.set_completion_list(self.fluids)
         self.FluidoC1_out.grid(row=2, column=0)
 
-        self.FluidoC2_out=ttk.Combobox(self.InserimentoFluidoOut, 
-                                    values=self.fluids)
+        self.FluidoC2_out=AutocompleteCombobox(self.InserimentoFluidoOut)
+        self.FluidoC2_out.set_completion_list(self.fluids)
         self.FluidoC2_out.grid(row=3, column=0)
 
-        self.FluidoC3_out=ttk.Combobox(self.InserimentoFluidoOut,
-                                    values=self.fluids)
+        self.FluidoC3_out=AutocompleteCombobox(self.InserimentoFluidoOut)
+        self.FluidoC3_out.set_completion_list(self.fluids)
         self.FluidoC3_out.grid(row=4, column=0)
 
-        self.FluidoC4_out=ttk.Combobox(self.InserimentoFluidoOut, 
-                                    values=self.fluids)
+        self.FluidoC4_out=AutocompleteCombobox(self.InserimentoFluidoOut)
+        self.FluidoC4_out.set_completion_list(self.fluids)
         self.FluidoC4_out.grid(row=5, column=0)
 
-        self.FluidoC5_out=ttk.Combobox(self.InserimentoFluidoOut, 
-                                    values=self.fluids)
+        self.FluidoC5_out=AutocompleteCombobox(self.InserimentoFluidoOut)
+        self.FluidoC5_out.set_completion_list(self.fluids)
         self.FluidoC5_out.grid(row=6, column=0)
 
         self.Fluidopressione_out=tk.Label(self.InserimentoFluidoOut, 
@@ -441,11 +531,11 @@ class Interfaccia:
                                         text="Inserisci",
                                         font=("Helvetica", 10, "bold"),
                                         bg="#D3D3D3",
-                                        command=self.SalvataggioFluidoOUT)
+                                        command=lambda: self.SalvataggioFluidoOUT(fluido_out))
         self.ok_button_out.grid(row=10, column=1)
         self.ok_button_out.bind('<Button-1>', lambda event: self.cambia_colore(fluido_out))
         
-    def SalvataggioFluidoOUT(self):
+    def SalvataggioFluidoOUT(self, fluido_out):
         try:
             self.Fluido1_out=self.FluidoC1_out.get()
             self.Fluido2_out=self.FluidoC2_out.get()
@@ -464,6 +554,15 @@ class Interfaccia:
             Quantita_out=[self.Quantita1_out, self.Quantita2_out, self.Quantita3_out, self.Quantita4_out, self.Quantita5_out]
             key = f"Fluido_{len(self.fluido_results_out) + 1}"
             self.fluido_results_out[key] = (SpecieChimiche_out, Quantita_out, self.Pressione_out, self.Temperatura_out, self.Portata_out)
+            SpecieChimiche_out = [comp for comp in SpecieChimiche_out if comp]
+            Quantita_out = [qty for qty in Quantita_out if qty]
+            mixture_out = "&".join(f"{comp}[{qty}]" for comp, qty in zip(SpecieChimiche_out, Quantita_out))
+            if fluido_out == "Fluido1_OUT":
+                self.mixture_out1.set(mixture_out)
+            elif fluido_out == "Fluido2_OUT":
+                self.mixture_out2.set(mixture_out)
+            elif fluido_out == "Fluido3_OUT":
+                self.mixture_out3.set(mixture_out)
         except AttributeError:
             print("Errore")
         finally:
@@ -521,24 +620,27 @@ class Interfaccia:
                                     textvariable=self.QuantitaFC5_var)
         self.QuantitaFC5.grid(row=6, column=1)
 
-        self.FluidoC1=ttk.Combobox(self.InserimentoFluido, 
-                                values=self.fluids)
+        # self.FluidoC1=ttk.Combobox(self.InserimentoFluido, 
+        #                         values=self.fluids)
+        # self.FluidoC1.grid(row=2, column=0)
+        self.FluidoC1 = AutocompleteCombobox(self.InserimentoFluido)
+        self.FluidoC1.set_completion_list(self.fluids)
         self.FluidoC1.grid(row=2, column=0)
 
-        self.FluidoC2=ttk.Combobox(self.InserimentoFluido,
-                                    values=self.fluids)
+        self.FluidoC2= AutocompleteCombobox(self.InserimentoFluido)
+        self.FluidoC2.set_completion_list(self.fluids)
         self.FluidoC2.grid(row=3, column=0)
 
-        self.FluidoC3=ttk.Combobox(self.InserimentoFluido,
-                                    values=self.fluids)
+        self.FluidoC3= AutocompleteCombobox(self.InserimentoFluido)
+        self.FluidoC3.set_completion_list(self.fluids)
         self.FluidoC3.grid(row=4, column=0)
 
-        self.FluidoC4=ttk.Combobox(self.InserimentoFluido,
-                                    values=self.fluids)
+        self.FluidoC4= AutocompleteCombobox(self.InserimentoFluido)
+        self.FluidoC4.set_completion_list(self.fluids)
         self.FluidoC4.grid(row=5, column=0)
 
-        self.FluidoC5=ttk.Combobox(self.InserimentoFluido,
-                                    values=self.fluids)
+        self.FluidoC5= AutocompleteCombobox(self.InserimentoFluido)
+        self.FluidoC5.set_completion_list(self.fluids)
         self.FluidoC5.grid(row=6, column=0)
 
         self.Fluidopressione=tk.Label(self.InserimentoFluido, 
@@ -579,7 +681,7 @@ class Interfaccia:
                                     text="Inserisci", 
                                     font=("Helvetica", 10, "bold"),
                                     bg="#D3D3D3",
-                                    command=self.SalvataggioFluidoIN)
+                                    command=lambda: self.SalvataggioFluidoIN(fluido_in))
         self.ok_button.grid(row=10, column=1)
         self.ok_button.bind('<Button-1>', lambda event: self.cambia_colore(fluido_in))
 
@@ -595,7 +697,7 @@ class Interfaccia:
 
         self.rimanenza.config(text=rimanenza)
 
-    def SalvataggioFluidoIN(self):
+    def SalvataggioFluidoIN(self,fluido_in):
         try:
             self.Fluido1=self.FluidoC1.get()
             self.Fluido2=self.FluidoC2.get()
@@ -614,6 +716,15 @@ class Interfaccia:
             Quantita=[self.Quantita1, self.Quantita2, self.Quantita3, self.Quantita4, self.Quantita5]
             key = f"Fluido_{len(self.fluido_results_in) + 1}"
             self.fluido_results_in[key] = (SpecieChimiche, Quantita, self.Pressione, self.Temperatura, self.Portata)
+            SpecieChimiche = [comp for comp in SpecieChimiche if comp]
+            Quantita = [qty for qty in Quantita if qty]
+            mixtu = "&".join(f"{comp}[{qty}]" for comp, qty in zip(SpecieChimiche, Quantita))
+            if fluido_in == "Fluido1_IN":
+                self.mixture_in1.set(mixtu)
+            elif fluido_in == "Fluido2_IN":
+                self.mixture_in2.set(mixtu)
+            elif fluido_in == "Fluido3_IN":
+                self.mixture_in3.set(mixtu)
         except AttributeError:
             print("Errore")
         finally:
