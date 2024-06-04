@@ -260,9 +260,9 @@ class Interfaccia:
         self.fluido_in1.grid(row=3, column=1)
 
         # fluido risultante
-        self.mixture_in1=tk.StringVar()
+        self.mixture_in1_var=tk.StringVar()
         self.fluido_in1_name=tk.Label(self.FinesScambioQ, 
-                                    textvariable=self.mixture_in1)
+                                    textvariable=self.mixture_in1_var)
         self.fluido_in1_name.grid(row=4, column=1)
 
         self.T_Label=tk.Label(self.FinesScambioQ,
@@ -306,9 +306,9 @@ class Interfaccia:
         self.fluido_out1.grid(row=10, column=1)
 
         # fluido risultante
-        self.mixture_out1 = tk.StringVar()
+        self.mixture_out1_var = tk.StringVar()
         self.fluido_out1_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_out1)
+                                    textvariable=self.mixture_out1_var)
         self.fluido_out1_name.grid(row=11, column=1)
 
         self.T_Label=tk.Label(self.FinesScambioQ,
@@ -341,9 +341,9 @@ class Interfaccia:
         self.fluido_in2.grid(row=3, column=2)
 
         #fluido risultante
-        self.mixture_in2=tk.StringVar()
+        self.mixture_in2_var=tk.StringVar()
         self.fluido_in2_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_in2)
+                                    textvariable=self.mixture_in2_var)
         self.fluido_in2_name.grid(row=4, column=2)
 
         self.T2_in_Entry=tk.Entry(self.FinesScambioQ)
@@ -365,9 +365,9 @@ class Interfaccia:
         self.fluido_out2.grid(row=10, column=2)
 
         #fluido risultante
-        self.mixture_out2=tk.StringVar()
+        self.mixture_out2_var=tk.StringVar()
         self.fluido_out2_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_out2)
+                                    textvariable=self.mixture_out2_var)
         self.fluido_out2_name.grid(row=11, column=2)
 
         self.T2_out_Entry=tk.Entry(self.FinesScambioQ)
@@ -389,9 +389,9 @@ class Interfaccia:
         self.fluido_in3.grid(row=3, column=3)
 
         #fluido risultante
-        self.mixture_in3=tk.StringVar()
+        self.mixture_in3_var=tk.StringVar()
         self.fluido_in3_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_in3)
+                                    textvariable=self.mixture_in3_var)
         self.fluido_in3_name.grid(row=4, column=3)
 
         self.T3_in_Entry=tk.Entry(self.FinesScambioQ)
@@ -413,9 +413,9 @@ class Interfaccia:
         self.fluido_out3.grid(row=10, column=3)
 
         #fluido risultante
-        self.mixture_out3=tk.StringVar()
+        self.mixture_out3_var=tk.StringVar()
         self.fluido_out3_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_out3)
+                                    textvariable=self.mixture_out3_var)
         self.fluido_out3_name.grid(row=11, column=3)
 
         self.T3_out_Entry=tk.Entry(self.FinesScambioQ)
@@ -520,30 +520,6 @@ class Interfaccia:
         self.FluidoC5_out.set_completion_list(self.fluids)
         self.FluidoC5_out.grid(row=6, column=0)
 
-        self.Fluidopressione_out=tk.Label(self.InserimentoFluidoOut, 
-                                        text="Inserisci la pressione [barg]",
-                                        font=("Helvetica", 10, "bold"))
-        self.Fluidopressione_out.grid(row=7, column=0)
-
-        self.Pressione_out=tk.Entry(self.InserimentoFluidoOut)
-        self.Pressione_out.grid(row=7, column=1)
-
-        self.FluidoTemperatura_out=tk.Label(self.InserimentoFluidoOut, 
-                                            text="Inserisci la temperatura [°C]",
-                                            font=("Helvetica", 10, "bold"))
-        self.FluidoTemperatura_out.grid(row=8, column=0)
-
-        self.Temperatura_out=tk.Entry(self.InserimentoFluidoOut)
-        self.Temperatura_out.grid(row=8, column=1)
-
-        self.FluidoPortata_out=tk.Label(self.InserimentoFluidoOut, 
-                                        text="Inserisci la portata [kg/h]",
-                                        font=("Helvetica", 10, "bold"))
-        self.FluidoPortata_out.grid(row=9, column=0)
-
-        self.Portata_out=tk.Entry(self.InserimentoFluidoOut)
-        self.Portata_out.grid(row=9, column=1)
-
         # Crea la label rimanenza
         self.rimanenza = tk.Label(self.InserimentoFluidoOut,
                                 text='1',
@@ -585,11 +561,11 @@ class Interfaccia:
             Quantita_out = [qty for qty in Quantita_out if qty]
             mixture_out = "&".join(f"{comp}[{qty}]" for comp, qty in zip(SpecieChimiche_out, Quantita_out))
             if fluido_out == "Fluido1_OUT":
-                self.mixture_out1.set(mixture_out)
+                self.mixture_out1_var.set(mixture_out)
             elif fluido_out == "Fluido2_OUT":
-                self.mixture_out2.set(mixture_out)
+                self.mixture_out2_var.set(mixture_out)
             elif fluido_out == "Fluido3_OUT":
-                self.mixture_out3.set(mixture_out)
+                self.mixture_out3_var.set(mixture_out)
         except AttributeError:
             print("Errore")
         finally:
@@ -670,30 +646,6 @@ class Interfaccia:
         self.FluidoC5.set_completion_list(self.fluids)
         self.FluidoC5.grid(row=6, column=0)
 
-        self.Fluidopressione=tk.Label(self.InserimentoFluido, 
-                                text="Inserisci la pressione [barg]",
-                                font=("Helvetica", 10, "bold"))
-        self.Fluidopressione.grid(row=7, column=0)
-
-        self.Pressione=tk.Entry(self.InserimentoFluido)
-        self.Pressione.grid(row=7, column=1)
-
-        self.FluidoTemperatura=tk.Label(self.InserimentoFluido,
-                                text="Inserisci la temperatura [°C]",
-                                font=("Helvetica", 10, "bold"))
-        self.FluidoTemperatura.grid(row=8, column=0)
-
-        self.Temperatura=tk.Entry(self.InserimentoFluido)
-        self.Temperatura.grid(row=8, column=1)
-
-        self.FluidoPortata_in=tk.Label(self.InserimentoFluido, 
-                                    text="Inserisci la portata [kg/h]",
-                                    font=("Helvetica", 10, "bold"))
-        self.FluidoPortata_in.grid(row=9, column=0)
-
-        self.Portata_in=tk.Entry(self.InserimentoFluido)
-        self.Portata_in.grid(row=9, column=1)
-
         # Crea la label rimanenza
         self.rimanenza = tk.Label(self.InserimentoFluido,
                                 text='1',
@@ -747,11 +699,11 @@ class Interfaccia:
             Quantita = [qty for qty in Quantita if qty]
             mixtu = "&".join(f"{comp}[{qty}]" for comp, qty in zip(SpecieChimiche, Quantita))
             if fluido_in == "Fluido1_IN":
-                self.mixture_in1.set(mixtu)
+                self.mixture_in1_var.set(mixtu)
             elif fluido_in == "Fluido2_IN":
-                self.mixture_in2.set(mixtu)
+                self.mixture_in2_var.set(mixtu)
             elif fluido_in == "Fluido3_IN":
-                self.mixture_in3.set(mixtu)
+                self.mixture_in3_var.set(mixtu)
         except AttributeError:
             print("Errore")
         finally:
@@ -998,6 +950,34 @@ class Interfaccia:
 
     def close_window(self):
         try:
+            self.T1_in = self.T1_in_Entry.get()
+            self.P1_in = self.P1_in_Entry.get()
+            self.portata1 = self.portata1.get()
+            self.T1_out = self.T1_out_Entry.get()
+            self.P1_out = self.P1_out_Entry.get()
+            self.portata1_out = self.portata1_out.get()
+            self.T2_in = self.T2_in_Entry.get()
+            self.P2_in = self.P2_in_Entry.get()
+            self.portata2 = self.portata2.get()
+            self.T2_out = self.T2_out_Entry.get()
+            self.P2_out = self.P2_out_Entry.get()
+            self.portata2_out = self.portata2_out.get()
+            self.T3_in = self.T3_in_Entry.get()
+            self.P3_in = self.P3_in_Entry.get()
+            self.portata3 = self.portata3.get()
+            self.T3_out = self.T3_out_Entry.get()
+            self.P3_out = self.P3_out_Entry.get()
+            self.portata3_out = self.portata3_out.get()
+            self.mixture_in1 = self.mixture_in1_var.get()
+            self.mixture_in2 = self.mixture_in2_var.get()
+            self.mixture_in3 = self.mixture_in3_var.get()
+            self.mixture_out1 = self.mixture_out1_var.get()
+            self.mixture_out2 = self.mixture_out2_var.get()
+            self.mixture_out3 = self.mixture_out3_var.get()
+
+        except AttributeError:
+            print("Errore nell'import dei dati T,p,m da finestra")
+        try:
             Q_Scambiato=self.calcolo_H()
             messagebox.showinfo("Risultato", f"Q Scambiato [kW]: {Q_Scambiato}")
         except ValueError:
@@ -1029,31 +1009,53 @@ class Interfaccia:
             return None
 
     def calcolo_H(self):
-        mixture_in = []
-        mixture_out = []
-        p_in = []
-        T_in = []
-        m_in = []
-        p_out = []
-        T_out = []
-        m_out = []
-        h_in = []
-        h_out = []
-        for fluid_name, fluid_data in self.get_fluido_results_in().items():
-            components, quantities, pressure, temperature, portata = fluid_data
-            p_in.append(pressure)
-            T_in.append(temperature)
-            m_in.append(portata)
-            # Unisci i componenti e le quantità in una stringa di miscela
-            mixture_in.append("&".join(f"{comp}[{qty}]" for comp, qty in zip(components, quantities) if comp and qty))
+        try:
+            mixture_in = []
+            mixture_out = []
+            p_in = []
+            T_in = []
+            m_in = []
+            p_out = []
+            T_out = []
+            m_out = []
+            h_in = []
+            h_out = []
+            mixture_in = [self.mixture_in1, self.mixture_in2, self.mixture_in3]
+            mixture_out = [self.mixture_out1, self.mixture_out2, self.mixture_out3]
+            p_in = [self.P1_in, self.P2_in, self.P3_in]
+            T_in = [self.T1_in, self.T2_in, self.T3_in]
+            m_in = [self.portata1, self.portata2, self.portata3]
+            p_out = [self.P1_out, self.P2_out, self.P3_out]
+            T_out = [self.T1_out, self.T2_out, self.T3_out]
+            m_out = [self.portata1_out, self.portata2_out, self.portata3_out]
+            #pulisci dei valori vuputi
+            p_in = [p for p in p_in if p]
+            T_in = [T for T in T_in if T]
+            m_in = [m for m in m_in if m]
+            p_out = [p for p in p_out if p]
+            T_out = [T for T in T_out if T]
+            m_out = [m for m in m_out if m]
+            mixture_in = [m for m in mixture_in if m]
+            mixture_out = [m for m in mixture_out if m]
         
-        for fluid_name, fluid_data in self.get_fluido_results_out().items():
-            components, quantities, pressure, temperature, portata = fluid_data
-            p_out.append(pressure)
-            T_out.append(temperature)
-            m_out.append(portata)
-            # Unisci i componenti e le quantità in una stringa di miscela
-            mixture_out.append("&".join(f"{comp}[{qty}]" for comp, qty in zip(components, quantities) if comp and qty))
+        except AttributeError:
+            print("Errore nell'import dei dati per il calcolo di H")
+
+        # for fluid_name, fluid_data in self.get_fluido_results_in().items():
+        #     components, quantities, pressure, temperature, portata = fluid_data
+        #     p_in.append(pressure)
+        #     T_in.append(temperature)
+        #     m_in.append(portata)
+        #     # Unisci i componenti e le quantità in una stringa di miscela
+        #     mixture_in.append("&".join(f"{comp}[{qty}]" for comp, qty in zip(components, quantities) if comp and qty))
+        
+        # for fluid_name, fluid_data in self.get_fluido_results_out().items():
+        #     components, quantities, pressure, temperature, portata = fluid_data
+        #     p_out.append(pressure)
+        #     T_out.append(temperature)
+        #     m_out.append(portata)
+        #     # Unisci i componenti e le quantità in una stringa di miscela
+        #     mixture_out.append("&".join(f"{comp}[{qty}]" for comp, qty in zip(components, quantities) if comp and qty))
 
         for i, element in enumerate(m_in):
             h_in.append(self.calculate_h(mixture_in[i], p_in[i], T_in[i]))
