@@ -248,7 +248,7 @@ class Interfaccia:
         self.label_file_in= tk.Label(self.FinesScambioQ, 
                                     text="Fluidi in input",
                                     font=("Helvetica", 10, "bold"))
-        self.label_file_in.grid(row=2, column=0, columnspan=2)
+        self.label_file_in.grid(row=2, column=2 )
         
         # Fluido 1
         self.fluido_in1 = tk.Button(
@@ -278,16 +278,22 @@ class Interfaccia:
 
         self.P1_in_Entry=tk.Entry(self.FinesScambioQ)
         self.P1_in_Entry.grid(row=6, column=1)
+        
+        self.portata=tk.Label(self.FinesScambioQ, text="Portata [kg/h]")
+        self.portata.grid(row=7, column=0)
+
+        self.portata1=tk.Entry(self.FinesScambioQ)
+        self.portata1.grid(row=7, column=1)
 
         #empty row
         empty_label2 = tk.Label(self.FinesScambioQ, text="")
-        empty_label2.grid(row=7, column=0)
+        empty_label2.grid(row=8, column=0)
 
         # Fluidi output
         self.label_file_in= tk.Label(self.FinesScambioQ,
                                     text="Fluidi in Output",
                                     font=("Helvetica", 10, "bold"))
-        self.label_file_in.grid(row=8, column=0, columnspan=2)
+        self.label_file_in.grid(row=9, column=2)
 
 
         # Fluido 1 Out
@@ -297,27 +303,33 @@ class Interfaccia:
             bg="#D3D3D3",
             command=lambda: self.FluidoOUT("Fluido1_OUT")
         )
-        self.fluido_out1.grid(row=9, column=1)
+        self.fluido_out1.grid(row=10, column=1)
 
         # fluido risultante
         self.mixture_out1 = tk.StringVar()
         self.fluido_out1_name=tk.Label(self.FinesScambioQ,
                                     textvariable=self.mixture_out1)
-        self.fluido_out1_name.grid(row=10, column=1)
+        self.fluido_out1_name.grid(row=11, column=1)
 
         self.T_Label=tk.Label(self.FinesScambioQ,
                             text="Temperatura [°C]")
-        self.T_Label.grid(row=11, column=0)
+        self.T_Label.grid(row=12, column=0)
 
         self.T1_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.T1_out_Entry.grid(row=11, column=1)
+        self.T1_out_Entry.grid(row=12, column=1)
 
         self.P_Label=tk.Label(self.FinesScambioQ,
                             text="Pressione [barg]")
-        self.P_Label.grid(row=12, column=0)
+        self.P_Label.grid(row=13, column=0)
 
         self.P1_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.P1_out_Entry.grid(row=12, column=1)
+        self.P1_out_Entry.grid(row=13, column=1)
+
+        self.portata=tk.Label(self.FinesScambioQ, text="Portata [kg/h]")
+        self.portata.grid(row=14, column=0)
+
+        self.portata1_out=tk.Entry(self.FinesScambioQ)
+        self.portata1_out.grid(row=14, column=1)
 
         # Fluido 2
         self.fluido_in2 = tk.Button(
@@ -340,6 +352,9 @@ class Interfaccia:
         self.P2_in_Entry=tk.Entry(self.FinesScambioQ)
         self.P2_in_Entry.grid(row=6, column=2)
 
+        self.portata2=tk.Entry(self.FinesScambioQ)
+        self.portata2.grid(row=7, column=2)
+
         # Fluido 2 Out
         self.fluido_out2 = tk.Button(
             self.FinesScambioQ,
@@ -347,19 +362,22 @@ class Interfaccia:
             bg="#D3D3D3",
             command=lambda: self.FluidoOUT("Fluido2_OUT")
         )
-        self.fluido_out2.grid(row=9, column=2)
+        self.fluido_out2.grid(row=10, column=2)
 
         #fluido risultante
         self.mixture_out2=tk.StringVar()
         self.fluido_out2_name=tk.Label(self.FinesScambioQ,
                                     textvariable=self.mixture_out2)
-        self.fluido_out2_name.grid(row=10, column=2)
+        self.fluido_out2_name.grid(row=11, column=2)
 
         self.T2_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.T2_out_Entry.grid(row=11, column=2)
+        self.T2_out_Entry.grid(row=12, column=2)
 
         self.P2_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.P2_out_Entry.grid(row=12, column=2)
+        self.P2_out_Entry.grid(row=13, column=2)
+
+        self.portata2_out=tk.Entry(self.FinesScambioQ)
+        self.portata2_out.grid(row=14, column=2)
 
         #fluido 3
         self.fluido_in3 = tk.Button(
@@ -382,6 +400,9 @@ class Interfaccia:
         self.P3_in_Entry=tk.Entry(self.FinesScambioQ)
         self.P3_in_Entry.grid(row=6, column=3)
 
+        self.portata3=tk.Entry(self.FinesScambioQ)
+        self.portata3.grid(row=7, column=3)
+
         #fluido 3 out
         self.fluido_out3 = tk.Button(
             self.FinesScambioQ,
@@ -389,36 +410,42 @@ class Interfaccia:
             bg="#D3D3D3",
             command=lambda: self.FluidoOUT("Fluido3_OUT")
         )
-        self.fluido_out3.grid(row=9, column=3)
+        self.fluido_out3.grid(row=10, column=3)
 
         #fluido risultante
         self.mixture_out3=tk.StringVar()
         self.fluido_out3_name=tk.Label(self.FinesScambioQ,
                                     textvariable=self.mixture_out3)
-        self.fluido_out3_name.grid(row=10, column=3)
+        self.fluido_out3_name.grid(row=11, column=3)
 
         self.T3_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.T3_out_Entry.grid(row=11, column=3)
+        self.T3_out_Entry.grid(row=12, column=3)
 
         self.P3_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.P3_out_Entry.grid(row=12, column=3)
+        self.P3_out_Entry.grid(row=13, column=3)
 
+        self.portata3_out=tk.Entry(self.FinesScambioQ)
+        self.portata3_out.grid(row=14, column=3)
+
+        #empty row
+        empty_label3 = tk.Label(self.FinesScambioQ, text="")
+        empty_label3.grid(row=15, column=0)
         # OK Button
         self.ok_button_chisura = tk.Button(
             self.FinesScambioQ,
             text="Calcola",
             font=("Helvetica", 10, "bold"),
-            bg="#D3D3D3",
+            bg="light blue",
             command=self.close_window  # replace with the function to be executed
 )
-        self.ok_button_chisura.grid(row=13, column=2)
+        self.ok_button_chisura.grid(row=16, column=1)
 
         self.closeButtonQ = tk.Button(self.FinesScambioQ, 
                                     text="Chiudi",
                                     font=("Helvetica", 10, "bold"),
-                                    bg="#D3D3D3",
+                                    bg="orange",
                                     command=lambda: self.distruggi(self.FinesScambioQ))
-        self.closeButtonQ.grid(row=13, column=3)
+        self.closeButtonQ.grid(row=16, column=3)
 
     def FluidoOUT(self, fluido_out):
         self.InserimentoFluidoOut = tk.Toplevel(self.root)
