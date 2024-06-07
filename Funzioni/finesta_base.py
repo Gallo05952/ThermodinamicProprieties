@@ -915,7 +915,7 @@ class Interfaccia:
         self.FinesPsat.title("Finestra Pressione di Saturazione")
         self.FinesPsat.geometry("450x270")
 
-        # TITOLO
+        #! TITOLO
         self.label_titolo= tk.Label(self.FinesPsat, 
                                     text="Calcolo della pressione di saturazione della miscela",
                                     font=("Helvetica", 12, "bold"),fg="red")
@@ -931,7 +931,7 @@ class Interfaccia:
                                         text="Inserisci la temperatura [°C]",
                                         font=("Helvetica", 12, "bold"))
         self.label_temperatura.grid(row=2, column=0)
-        # Inserisci la pressione
+        #! Inserisci la temperatura
         self.Temperatura_Psat = tk.Entry(self.FinesPsat)
         self.Temperatura_Psat.grid(row=2, column=1)
 
@@ -940,72 +940,77 @@ class Interfaccia:
                                     font=("Helvetica", 12, "bold"))
         self.LabelFluido.grid(row=3, column=0, columnspan=2)
 
-        # Crea una StringVar per ogni Entry
+        #! INSERIMENTO DELLA COMPOSIZIONE DEL FLUIDO
         try:
-            self.QuantitaFC1_var = tk.StringVar()
-            self.QuantitaFC2_var = tk.StringVar()
-            self.QuantitaFC3_var = tk.StringVar()
-            self.QuantitaFC4_var = tk.StringVar()
-            self.QuantitaFC5_var = tk.StringVar()
+            # Crea una StringVar per ogni Entry
+            try:
+                self.QuantitaFC1_var = tk.StringVar()
+                self.QuantitaFC2_var = tk.StringVar()
+                self.QuantitaFC3_var = tk.StringVar()
+                self.QuantitaFC4_var = tk.StringVar()
+                self.QuantitaFC5_var = tk.StringVar()
+            except AttributeError:
+                print("Errore")
+
+            # Crea una lista di StringVars
+            self.Quantita_vars = [self.QuantitaFC1_var, 
+                                self.QuantitaFC2_var, 
+                                self.QuantitaFC3_var, 
+                                self.QuantitaFC4_var, 
+                                self.QuantitaFC5_var]
+
+            # Crea una Entry per ogni StringVar
+            self.QuantitaFC1 = tk.Entry(self.FinesPsat, 
+                                        textvariable=self.QuantitaFC1_var)
+            self.QuantitaFC1.grid(row=4, column=1)
+
+            self.QuantitaFC2 = tk.Entry(self.FinesPsat,
+                                    textvariable=self.QuantitaFC2_var)
+            self.QuantitaFC2.grid(row=5, column=1)
+
+            self.QuantitaFC3 = tk.Entry(self.FinesPsat, 
+                                        textvariable=self.QuantitaFC3_var)
+            self.QuantitaFC3.grid(row=6, column=1)
+
+            self.QuantitaFC4 = tk.Entry(self.FinesPsat, 
+                                        textvariable=self.QuantitaFC4_var)
+            self.QuantitaFC4.grid(row=7, column=1)
+
+            self.QuantitaFC5 = tk.Entry(self.FinesPsat,
+                                        textvariable=self.QuantitaFC5_var)
+            self.QuantitaFC5.grid(row=8, column=1)
+
+            self.FluidoC1=AutocompleteCombobox(self.FinesPsat)
+            self.FluidoC1.set_completion_list(self.fluids)
+            self.FluidoC1.grid(row=4, column=0)
+
+            self.FluidoC2=AutocompleteCombobox(self.FinesPsat)
+            self.FluidoC2.set_completion_list(self.fluids)
+            self.FluidoC2.grid(row=5, column=0)
+
+            self.FluidoC3=AutocompleteCombobox(self.FinesPsat)
+            self.FluidoC3.set_completion_list(self.fluids)
+            self.FluidoC3.grid(row=6, column=0)
+
+            self.FluidoC4=AutocompleteCombobox(self.FinesPsat)
+            self.FluidoC4.set_completion_list(self.fluids)
+            self.FluidoC4.grid(row=7, column=0)
+
+            self.FluidoC5=AutocompleteCombobox(self.FinesPsat)
+            self.FluidoC5.set_completion_list(self.fluids)
+            self.FluidoC5.grid(row=8, column=0)
+
+            self.rimanenza = tk.Label(self.FinesPsat,
+                                    text='1')
+            self.rimanenza.grid(row=8, column=3)
+
+            # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
+            for quantita_var in self.Quantita_vars:
+                quantita_var.trace('w', self.aggiorna_rimanenza)
         except AttributeError:
             print("Errore")
 
-        # Crea una lista di StringVars
-        self.Quantita_vars = [self.QuantitaFC1_var, 
-                            self.QuantitaFC2_var, 
-                            self.QuantitaFC3_var, 
-                            self.QuantitaFC4_var, 
-                            self.QuantitaFC5_var]
-
-        # Crea una Entry per ogni StringVar
-        self.QuantitaFC1 = tk.Entry(self.FinesPsat, 
-                                    textvariable=self.QuantitaFC1_var)
-        self.QuantitaFC1.grid(row=4, column=1)
-
-        self.QuantitaFC2 = tk.Entry(self.FinesPsat,
-                                textvariable=self.QuantitaFC2_var)
-        self.QuantitaFC2.grid(row=5, column=1)
-
-        self.QuantitaFC3 = tk.Entry(self.FinesPsat, 
-                                    textvariable=self.QuantitaFC3_var)
-        self.QuantitaFC3.grid(row=6, column=1)
-
-        self.QuantitaFC4 = tk.Entry(self.FinesPsat, 
-                                    textvariable=self.QuantitaFC4_var)
-        self.QuantitaFC4.grid(row=7, column=1)
-
-        self.QuantitaFC5 = tk.Entry(self.FinesPsat,
-                                    textvariable=self.QuantitaFC5_var)
-        self.QuantitaFC5.grid(row=8, column=1)
-
-        self.FluidoC1=ttk.Combobox(self.FinesPsat,
-                                values=self.fluids)
-        self.FluidoC1.grid(row=4, column=0)
-
-        self.FluidoC2=ttk.Combobox(self.FinesPsat,
-                                values=self.fluids)
-        self.FluidoC2.grid(row=5, column=0)
-
-        self.FluidoC3=ttk.Combobox(self.FinesPsat,
-                                    values=self.fluids)
-        self.FluidoC3.grid(row=6, column=0)
-
-        self.FluidoC4=ttk.Combobox(self.FinesPsat,
-                                    values=self.fluids)
-        self.FluidoC4.grid(row=7, column=0)
-
-        self.FluidoC5=ttk.Combobox(self.FinesPsat,
-                                    values=self.fluids)
-        self.FluidoC5.grid(row=8, column=0)
-
-        self.rimanenza = tk.Label(self.FinesPsat,
-                                text='1')
-        self.rimanenza.grid(row=8, column=3)
-
-        # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
-        for quantita_var in self.Quantita_vars:
-            quantita_var.trace('w', self.aggiorna_rimanenza)
-
+        #! OK Button
         self.ok_button = tk.Button(self.FinesPsat, 
                                 text="Calcola", 
                                 font=("Helvetica", 10, "bold"),
@@ -1013,6 +1018,7 @@ class Interfaccia:
                                 command=self.SalvataggioFluidopSat)
         self.ok_button.grid(row=9, column=0)
 
+        #! Close Button
         self.closeButtonp = tk.Button(self.FinesPsat, 
                                     text="Chiudi", 
                                     font=("Helvetica", 10, "bold"),

@@ -5,6 +5,7 @@ from tkinter import ttk
 import tkinter.messagebox as messagebox
 import numpy as np
 from tkinter import filedialog
+from .autocomplete import AutocompleteCombobox
 
 class ComposizioneSaturazione:
 
@@ -145,141 +146,163 @@ class ComposizioneSaturazione:
         self.label_vuota = tk.Label(self.CompSat, text=" ")
         self.label_vuota.grid(row=1, column=0)
 
-        self.label_T = tk.Label(self.CompSat,
-                                text="Temperatura [°C]",
-                                font=("Helvetica", 12, "bold"))
-        self.label_T.grid(row=2, column=0)
-        self.entry_T = tk.Entry(self.CompSat)
-        self.entry_T.grid(row=2, column=1)
-        self.dT_consentito=tk.Label(self.CompSat,
-                                text="Tolleranza temperatura [°C]",
-                                font=("Helvetica", 12, "bold"))
-        self.dT_consentito.grid(row=2, column=2)
-        self.entry_dT = tk.Entry(self.CompSat)
-        self.entry_dT.grid(row=2, column=3)
-
-        self.label_p = tk.Label(self.CompSat, 
-                                text="Pressione [barg]",
-                                font=("Helvetica", 12, "bold"))
-        self.label_p.grid(row=3, column=0)
-        self.entry_p = tk.Entry(self.CompSat)
-        self.entry_p.grid(row=3, column=1)
-        self.n_punti=tk.Label(self.CompSat,
-                                text="Numero di punti di prova",
-                                font=("Helvetica", 12, "bold"))
-        self.n_punti.grid(row=3, column=2)
-        self.entry_n = tk.Entry(self.CompSat)
-        self.entry_n.grid(row=3, column=3)
-
-        self.LabelFluido = tk.Label(self.CompSat,
-                                    text="Inserisci i range di composizione in cui cercare su base molare [0,1]",
+        #! CONDIZIONI DI PROVA
+        try:
+            self.label_T = tk.Label(self.CompSat,
+                                    text="Temperatura [°C]",
                                     font=("Helvetica", 12, "bold"))
-        self.LabelFluido.grid(row=4, column=0, columnspan=4)
+            self.label_T.grid(row=2, column=0)
 
-        self.completamento=tk.Label(self.CompSat,
-                                    text="Usa questo fluido per il completamento",
+            self.entry_T = tk.Entry(self.CompSat)
+            self.entry_T.grid(row=2, column=1)
+
+            self.dT_consentito=tk.Label(self.CompSat,
+                                    text="Tolleranza temperatura [°C]",
+                                    font=("Helvetica", 12, "bold"))
+            self.dT_consentito.grid(row=2, column=2)
+
+            self.entry_dT = tk.Entry(self.CompSat)
+            self.entry_dT.grid(row=2, column=3)
+            self.entry_dT.insert(0, "0.2")
+
+            self.label_p = tk.Label(self.CompSat, 
+                                    text="Pressione [barg]",
+                                    font=("Helvetica", 12, "bold"))
+            self.label_p.grid(row=3, column=0)
+
+            self.entry_p = tk.Entry(self.CompSat)
+            self.entry_p.grid(row=3, column=1)
+
+            self.n_punti=tk.Label(self.CompSat,
+                                    text="Numero di punti di prova",
+                                    font=("Helvetica", 12, "bold"))
+            self.n_punti.grid(row=3, column=2)
+
+            self.entry_n = tk.Entry(self.CompSat)
+            self.entry_n.grid(row=3, column=3)
+            self.entry_n.insert(0, "10")
+        except Exception as e:
+            print(e)
+
+        #! DEFINIZIONE RANGE COMPONENTI
+        try:
+            self.LabelFluido = tk.Label(self.CompSat,
+                                        text="Inserisci i range di composizione in cui cercare su base molare [0,1]",
+                                        font=("Helvetica", 12, "bold"))
+            self.LabelFluido.grid(row=4, column=0, columnspan=4)
+
+            self.completamento=tk.Label(self.CompSat,
+                                        text="Usa questo fluido per il completamento",
+                                        font=("Helvetica", 8, "bold"))
+            self.completamento.grid(row=5, column=3)
+
+            self.Quantità_min=tk.Label(self.CompSat,
+                                    text="Quantità minima",
                                     font=("Helvetica", 8, "bold"))
-        self.completamento.grid(row=5, column=3)
+            self.Quantità_min.grid(row=5, column=1)
 
-        self.Quantità_min=tk.Label(self.CompSat,
-                                text="Quantità minima",
-                                font=("Helvetica", 8, "bold"))
-        self.Quantità_min.grid(row=5, column=1)
+            self.Quantità_max=tk.Label(self.CompSat,
+                                    text="Quantità massima",
+                                    font=("Helvetica", 8, "bold"))
+            self.Quantità_max.grid(row=5, column=2)
 
-        self.Quantità_max=tk.Label(self.CompSat,
-                                text="Quantità massima",
-                                font=("Helvetica", 8, "bold"))
-        self.Quantità_max.grid(row=5, column=2)
+                    # Crea una StringVar per ogni Entry
+            try:
+                self.QuantitaFC1_var_min = tk.StringVar()
+                self.QuantitaFC1_var_max = tk.StringVar()
+                self.QuantitaFC2_var_min = tk.StringVar()
+                self.QuantitaFC2_var_max = tk.StringVar()
+                self.QuantitaFC3_var_min = tk.StringVar()
+                self.QuantitaFC3_var_max = tk.StringVar()
+                self.QuantitaFC4_var_min = tk.StringVar()
+                self.QuantitaFC4_var_max = tk.StringVar()
+            except Exception as e:
+                print(e)
 
-                # Crea una StringVar per ogni Entry
-        try:
-            self.QuantitaFC1_var_min = tk.StringVar()
-            self.QuantitaFC1_var_max = tk.StringVar()
-            self.QuantitaFC2_var_min = tk.StringVar()
-            self.QuantitaFC2_var_max = tk.StringVar()
-            self.QuantitaFC3_var_min = tk.StringVar()
-            self.QuantitaFC3_var_max = tk.StringVar()
-            self.QuantitaFC4_var_min = tk.StringVar()
-            self.QuantitaFC4_var_max = tk.StringVar()
+            # Crea una Entry per ogni StringVar
+            self.QuantitaFC1_min = tk.Entry(self.CompSat,
+                                            textvariable=self.QuantitaFC1_var_min)
+            self.QuantitaFC1_min.grid(row=6, column=1)
+
+            self.QuantitaFC1_max = tk.Entry(self.CompSat,
+                                            textvariable=self.QuantitaFC1_var_max)
+            self.QuantitaFC1_max.grid(row=6, column=2)
+
+            self.QuantitaFC2_min = tk.Entry(self.CompSat,
+                                            textvariable=self.QuantitaFC2_var_min)
+            self.QuantitaFC2_min.grid(row=7, column=1)
+
+            self.QuantitaFC2_max = tk.Entry(self.CompSat,
+                                            textvariable=self.QuantitaFC2_var_max)
+            self.QuantitaFC2_max.grid(row=7, column=2)
+
+            self.QuantitaFC3_min = tk.Entry(self.CompSat,
+                                            textvariable=self.QuantitaFC3_var_min)
+            self.QuantitaFC3_min.grid(row=8, column=1)
+
+            self.QuantitaFC3_max = tk.Entry(self.CompSat,
+                                            textvariable=self.QuantitaFC3_var_max)
+            self.QuantitaFC3_max.grid(row=8, column=2)
+
+            self.QuantitaFC4_min = tk.Entry(self.CompSat,
+                                            textvariable=self.QuantitaFC4_var_min)
+            self.QuantitaFC4_min.grid(row=9, column=1)
+
+            self.QuantitaFC4_max = tk.Entry(self.CompSat,
+                                            textvariable=self.QuantitaFC4_var_max)
+            self.QuantitaFC4_max.grid(row=9, column=2)
+
+            self.FluidoC1=AutocompleteCombobox(self.CompSat)
+            self.FluidoC1.set_completion_list(self.fluids)
+            self.FluidoC1.grid(row=6, column=0)
+
+            self.FluidoC2=AutocompleteCombobox(self.CompSat)
+            self.FluidoC2.set_completion_list(self.fluids)
+            self.FluidoC2.grid(row=7, column=0)
+
+            self.FluidoC3=AutocompleteCombobox(self.CompSat)
+            self.FluidoC3.set_completion_list(self.fluids)
+            self.FluidoC3.grid(row=8, column=0)
+
+            self.FluidoC4=AutocompleteCombobox(self.CompSat)
+            self.FluidoC4.set_completion_list(self.fluids)
+            self.FluidoC4.grid(row=9, column=0)
         except Exception as e:
             print(e)
 
-        # Crea una Entry per ogni StringVar
-        self.QuantitaFC1_min = tk.Entry(self.CompSat,
-                                        textvariable=self.QuantitaFC1_var_min)
-        self.QuantitaFC1_min.grid(row=6, column=1)
-
-        self.QuantitaFC1_max = tk.Entry(self.CompSat,
-                                        textvariable=self.QuantitaFC1_var_max)
-        self.QuantitaFC1_max.grid(row=6, column=2)
-
-        self.QuantitaFC2_min = tk.Entry(self.CompSat,
-                                        textvariable=self.QuantitaFC2_var_min)
-        self.QuantitaFC2_min.grid(row=7, column=1)
-
-        self.QuantitaFC2_max = tk.Entry(self.CompSat,
-                                        textvariable=self.QuantitaFC2_var_max)
-        self.QuantitaFC2_max.grid(row=7, column=2)
-
-        self.QuantitaFC3_min = tk.Entry(self.CompSat,
-                                        textvariable=self.QuantitaFC3_var_min)
-        self.QuantitaFC3_min.grid(row=8, column=1)
-
-        self.QuantitaFC3_max = tk.Entry(self.CompSat,
-                                        textvariable=self.QuantitaFC3_var_max)
-        self.QuantitaFC3_max.grid(row=8, column=2)
-
-        self.QuantitaFC4_min = tk.Entry(self.CompSat,
-                                        textvariable=self.QuantitaFC4_var_min)
-        self.QuantitaFC4_min.grid(row=9, column=1)
-
-        self.QuantitaFC4_max = tk.Entry(self.CompSat,
-                                        textvariable=self.QuantitaFC4_var_max)
-        self.QuantitaFC4_max.grid(row=9, column=2)
-
-        self.FluidoC1=ttk.Combobox(self.CompSat,
-                                values=self.fluids)
-        self.FluidoC1.grid(row=6, column=0)
-
-        self.FluidoC2=ttk.Combobox(self.CompSat,
-                                values=self.fluids)
-        self.FluidoC2.grid(row=7, column=0)
-
-        self.FluidoC3=ttk.Combobox(self.CompSat,
-                                values=self.fluids)
-        self.FluidoC3.grid(row=8, column=0)
-
-        self.FluidoC4=ttk.Combobox(self.CompSat,
-                                values=self.fluids)
-        self.FluidoC4.grid(row=9, column=0)
-
+        #! CHECKBUTTON PER COMPLETAMENTO
         try:
-            self.Comp1_var = tk.BooleanVar()
-            self.Comp2_var = tk.BooleanVar()
-            self.Comp3_var = tk.BooleanVar()
-            self.Comp4_var = tk.BooleanVar()
+            #! CRAZIONE VARIABILI
+            try:
+                self.Comp1_var = tk.BooleanVar()
+                self.Comp2_var = tk.BooleanVar()
+                self.Comp3_var = tk.BooleanVar()
+                self.Comp4_var = tk.BooleanVar()
+            except Exception as e:
+                print(e)
+
+            # self.Comp1=tk.Checkbutton(self.CompSat, variable=self.Comp1_var,command=lambda: print("Clicked!"))
+            # self.Comp1.grid(row=3, column=3)
+            
+            self.Comp1 = tk.Checkbutton(self.CompSat,
+                                        variable=self.Comp1_var)
+            self.Comp1.grid(row=6, column=3)
+
+            self.Comp2 = tk.Checkbutton(self.CompSat,
+                                        variable=self.Comp2_var)
+            self.Comp2.grid(row=7, column=3)
+
+            self.Comp3 = tk.Checkbutton(self.CompSat,
+                                        variable=self.Comp3_var)
+            self.Comp3.grid(row=8, column=3)
+
+            self.Comp4 = tk.Checkbutton(self.CompSat,
+                                        variable=self.Comp4_var)
+            self.Comp4.grid(row=9, column=3)
         except Exception as e:
             print(e)
 
-        # self.Comp1=tk.Checkbutton(self.CompSat, variable=self.Comp1_var,command=lambda: print("Clicked!"))
-        # self.Comp1.grid(row=3, column=3)
-        
-        self.Comp1 = tk.Checkbutton(self.CompSat,
-                                    variable=self.Comp1_var)
-        self.Comp1.grid(row=6, column=3)
-
-        self.Comp2 = tk.Checkbutton(self.CompSat,
-                                    variable=self.Comp2_var)
-        self.Comp2.grid(row=7, column=3)
-
-        self.Comp3 = tk.Checkbutton(self.CompSat,
-                                    variable=self.Comp3_var)
-        self.Comp3.grid(row=8, column=3)
-
-        self.Comp4 = tk.Checkbutton(self.CompSat,
-                                    variable=self.Comp4_var)
-        self.Comp4.grid(row=9, column=3)
-
+        #! BOTTONE DI CALCOLO
         self.bottone = tk.Button(self.CompSat,
                                 text="Calcola",
                                 font=("Helvetica", 12, "bold"),
@@ -287,6 +310,7 @@ class ComposizioneSaturazione:
                                 command=self.Calcola)
         self.bottone.grid(row=10, column=1)
 
+        #! BOTTONE DI CHIUSURA
         self.chiusura = tk.Button(self.CompSat,
                                 text="Chiudi",
                                 font=("Helvetica", 12, "bold"),
