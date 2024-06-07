@@ -4,6 +4,8 @@ from tkinter import ttk
 from tkinter import messagebox
 from CoolProp.CoolProp import FluidsList
 from .autocomplete import AutocompleteCombobox
+import os
+from PIL import Image, ImageTk
 
 class Interfaccia:
         
@@ -52,13 +54,30 @@ class Interfaccia:
         )
         self.condizioni_saturazione.grid(row=4, column=0)
 
+        try:
+            # Load the image file
+            img = Image.open(r"C:\Users\galloni\OneDrive - unibs.it\Corsi\Python\ScambiatoreCalore\MG.png")
+
+            # Resize the image
+            img = img.resize((100, 100), Image.LANCZOS)  # Use Image.LANCZOS instead of Image.ANTIALIAS
+
+            # Convert the image to a Tkinter-compatible photo image
+            tk_img = ImageTk.PhotoImage(img)
+
+            # Create a label and add the image to it
+            logo_label = tk.Label(self.root, image=tk_img)
+            logo_label.image = tk_img  # keep a reference to the image to prevent it from being garbage collected
+            logo_label.grid(row=2, column=1, rowspan=3)
+        except Exception as e:
+            print("Errore nel caricamento del logo: ", e)
+
     def FinestraCondizioniSaturazione(self):
 
         from Funzioni.compsat import ComposizioneSaturazione
 
         self.FinesCondizioniSaturazione = tk.Toplevel(self.root)
         self.FinesCondizioniSaturazione.title("Finestra Condizioni di Saturazione")
-        self.FinesCondizioniSaturazione.geometry("400x250")
+        self.FinesCondizioniSaturazione.geometry("400x300")
 
         # TITOLO
         self.label_titolo= tk.Label(self.FinesCondizioniSaturazione, 
@@ -119,6 +138,42 @@ class Interfaccia:
         )
         self.ButtonChiusura.grid(row=8, column=0)
 
+        try:
+            # Load the image file
+            img = Image.open(r"C:\Users\galloni\OneDrive - unibs.it\Corsi\Python\ScambiatoreCalore\MG.png")
+
+            # Resize the image
+            img = img.resize((100, 100), Image.LANCZOS)  # Use Image.LANCZOS instead of Image.ANTIALIAS
+
+            # Convert the image to a Tkinter-compatible photo image
+            tk_img = ImageTk.PhotoImage(img)
+
+            # Create a label and add the image to it
+            logo_label = tk.Label(self.FinesCondizioniSaturazione, image=tk_img)
+            logo_label.image = tk_img  # keep a reference to the image to prevent it from being garbage collected
+            logo_label.grid(row=8, column=1)
+        except Exception as e:
+            print("Errore nel caricamento del logo: ", e)
+
+
+        #! INSERIMENTO LOGO
+        try:
+            # Load the image file
+            img = Image.open(r"C:\Users\galloni\OneDrive - unibs.it\Corsi\Python\ScambiatoreCalore\MG.png")
+
+            # Resize the image
+            img = img.resize((100, 100), Image.LANCZOS)  # Use Image.LANCZOS instead of Image.ANTIALIAS
+
+            # Convert the image to a Tkinter-compatible photo image
+            tk_img = ImageTk.PhotoImage(img)
+
+            # Create a label and add the image to it
+            logo_label = tk.Label(self.one, image=tk_img)
+            logo_label.image = tk_img  # keep a reference to the image to prevent it from being garbage collected
+            logo_label.grid(row=8, column=1)
+        except Exception as e:
+            print("Errore nel caricamento del logo: ", e)
+
     def FinestraTsat(self):
         self.FinesTsat = tk.Toplevel(self.root)
         self.FinesTsat.title("Finestra Temperatura di Saturazione")
@@ -159,60 +214,64 @@ class Interfaccia:
         except AttributeError:
             print("Errore")
 
-        # Crea una lista di StringVars
-        self.Quantita_vars = [self.QuantitaFC1_var, 
-                            self.QuantitaFC2_var,
-                            self.QuantitaFC3_var,
-                            self.QuantitaFC4_var,
-                            self.QuantitaFC5_var]
+#! INSERIMENTO COMPOSIZIONE FLUIDO
+        try:
+            # Crea una lista di StringVars
+            self.Quantita_vars = [self.QuantitaFC1_var, 
+                                self.QuantitaFC2_var,
+                                self.QuantitaFC3_var,
+                                self.QuantitaFC4_var,
+                                self.QuantitaFC5_var]
 
-        # Crea una Entry per ogni StringVar
-        self.QuantitaFC1 = tk.Entry(self.FinesTsat,
-                                    textvariable=self.QuantitaFC1_var)
-        self.QuantitaFC1.grid(row=4, column=1)
+            # Crea una Entry per ogni StringVar
+            self.QuantitaFC1 = tk.Entry(self.FinesTsat,
+                                        textvariable=self.QuantitaFC1_var)
+            self.QuantitaFC1.grid(row=4, column=1)
 
-        self.QuantitaFC2 = tk.Entry(self.FinesTsat,
-                                    textvariable=self.QuantitaFC2_var)
-        self.QuantitaFC2.grid(row=5, column=1)
+            self.QuantitaFC2 = tk.Entry(self.FinesTsat,
+                                        textvariable=self.QuantitaFC2_var)
+            self.QuantitaFC2.grid(row=5, column=1)
 
-        self.QuantitaFC3 = tk.Entry(self.FinesTsat,
-                                    textvariable=self.QuantitaFC3_var)
-        self.QuantitaFC3.grid(row=6, column=1)
+            self.QuantitaFC3 = tk.Entry(self.FinesTsat,
+                                        textvariable=self.QuantitaFC3_var)
+            self.QuantitaFC3.grid(row=6, column=1)
 
-        self.QuantitaFC4 = tk.Entry(self.FinesTsat,
-                                    textvariable=self.QuantitaFC4_var)
-        self.QuantitaFC4.grid(row=7, column=1)
+            self.QuantitaFC4 = tk.Entry(self.FinesTsat,
+                                        textvariable=self.QuantitaFC4_var)
+            self.QuantitaFC4.grid(row=7, column=1)
 
-        self.QuantitaFC5 = tk.Entry(self.FinesTsat,
-                                    textvariable=self.QuantitaFC5_var)
-        self.QuantitaFC5.grid(row=8, column=1)
+            self.QuantitaFC5 = tk.Entry(self.FinesTsat,
+                                        textvariable=self.QuantitaFC5_var)
+            self.QuantitaFC5.grid(row=8, column=1)        
 
-        self.FluidoC1=ttk.Combobox(self.FinesTsat,
-                                values=self.fluids)
-        self.FluidoC1.grid(row=4, column=0)
+            self.FluidoC1=AutocompleteCombobox(self.FinesTsat)
+            self.FluidoC1.set_completion_list(self.fluids)
+            self.FluidoC1.grid(row=4, column=0)
 
-        self.FluidoC2=ttk.Combobox(self.FinesTsat,
-                                values=self.fluids)
-        self.FluidoC2.grid(row=5, column=0)
+            self.FluidoC2=AutocompleteCombobox(self.FinesTsat)
+            self.FluidoC2.set_completion_list(self.fluids)
+            self.FluidoC2.grid(row=5, column=0)
 
-        self.FluidoC3=ttk.Combobox(self.FinesTsat,
-                                    values=self.fluids)
-        self.FluidoC3.grid(row=6, column=0)
+            self.FluidoC3=AutocompleteCombobox(self.FinesTsat)
+            self.FluidoC3.set_completion_list(self.fluids)
+            self.FluidoC3.grid(row=6, column=0)
 
-        self.FluidoC4=ttk.Combobox(self.FinesTsat, 
-                                values=self.fluids)
-        self.FluidoC4.grid(row=7, column=0)
+            self.FluidoC4=AutocompleteCombobox(self.FinesTsat)
+            self.FluidoC4.set_completion_list(self.fluids)
+            self.FluidoC4.grid(row=7, column=0)
 
-        self.FluidoC5=ttk.Combobox(self.FinesTsat,
-                                    values=self.fluids)
-        self.FluidoC5.grid(row=8, column=0)
+            self.FluidoC5=AutocompleteCombobox(self.FinesTsat)
+            self.FluidoC5.set_completion_list(self.fluids)
+            self.FluidoC5.grid(row=8, column=0)
 
-        self.rimanenza = tk.Label(self.FinesTsat, text='1')
-        self.rimanenza.grid(row=8, column=3)
+            self.rimanenza = tk.Label(self.FinesTsat, text='1')
+            self.rimanenza.grid(row=8, column=3)
 
-        # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
-        for quantita_var in self.Quantita_vars:
-            quantita_var.trace('w', self.aggiorna_rimanenza)
+            # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
+            for quantita_var in self.Quantita_vars:
+                quantita_var.trace('w', self.aggiorna_rimanenza)
+        except AttributeError:
+            print("Errore")
 
         self.ok_button = tk.Button(self.FinesTsat,
                                 text="OK",
@@ -233,7 +292,7 @@ class Interfaccia:
         self.FinesScambioQ.title("Finestra Scambio di Calore")
         self.FinesScambioQ.geometry("500x500")
         
-        # TITOLO
+        #! TITOLO
         self.label_titolo= tk.Label(self.FinesScambioQ,
                                     text="Calcolo delle scambio termico",
                                     font=("Helvetica", 12, "bold"),fg="red")
@@ -244,193 +303,198 @@ class Interfaccia:
                                     text="")
         self.riga_vuota.grid(row=1, column=0)
 
-        # Fluidi input
-        self.label_file_in= tk.Label(self.FinesScambioQ, 
-                                    text="Fluidi in input",
-                                    font=("Helvetica", 10, "bold"))
-        self.label_file_in.grid(row=2, column=2 )
-        
-        # Fluido 1
-        self.fluido_in1 = tk.Button(
-            self.FinesScambioQ,
-            text="Fluido1_IN",
-            bg="#D3D3D3",
-            command=lambda: self.FluidoIN("Fluido1_IN")
-        )
-        self.fluido_in1.grid(row=3, column=1)
+        #! INPUT FLUIDI
+        try:
+            #! Fluidi input
+            self.label_file_in= tk.Label(self.FinesScambioQ, 
+                                        text="Fluidi in input",
+                                        font=("Helvetica", 10, "bold"))
+            self.label_file_in.grid(row=2, column=2 )
+            
+            #! Fluido 1
+            self.fluido_in1 = tk.Button(
+                self.FinesScambioQ,
+                text="Fluido1_IN",
+                bg="#D3D3D3",
+                command=lambda: self.FluidoIN("Fluido1_IN")
+            )
+            self.fluido_in1.grid(row=3, column=1)
 
-        # fluido risultante
-        self.mixture_in1_var=tk.StringVar()
-        self.fluido_in1_name=tk.Label(self.FinesScambioQ, 
-                                    textvariable=self.mixture_in1_var)
-        self.fluido_in1_name.grid(row=4, column=1)
+            #! fluido risultante
+            self.mixture_in1_var=tk.StringVar()
+            self.fluido_in1_name=tk.Label(self.FinesScambioQ, 
+                                        textvariable=self.mixture_in1_var)
+            self.fluido_in1_name.grid(row=4, column=1)
 
-        self.T_Label=tk.Label(self.FinesScambioQ,
-                            text="Temperatura [°C]")
-        self.T_Label.grid(row=5, column=0)
+            self.T_Label=tk.Label(self.FinesScambioQ,
+                                text="Temperatura [°C]")
+            self.T_Label.grid(row=5, column=0)
 
-        self.T1_in_Entry=tk.Entry(self.FinesScambioQ)
-        self.T1_in_Entry.grid(row=5, column=1)
+            self.T1_in_Entry=tk.Entry(self.FinesScambioQ)
+            self.T1_in_Entry.grid(row=5, column=1)
 
-        self.P_Label=tk.Label(self.FinesScambioQ,
-                            text="Pressione [barg]")
-        self.P_Label.grid(row=6, column=0)
+            self.P_Label=tk.Label(self.FinesScambioQ,
+                                text="Pressione [barg]")
+            self.P_Label.grid(row=6, column=0)
 
-        self.P1_in_Entry=tk.Entry(self.FinesScambioQ)
-        self.P1_in_Entry.grid(row=6, column=1)
-        
-        self.portata=tk.Label(self.FinesScambioQ, text="Portata [kg/h]")
-        self.portata.grid(row=7, column=0)
+            self.P1_in_Entry=tk.Entry(self.FinesScambioQ)
+            self.P1_in_Entry.grid(row=6, column=1)
+            
+            self.portata=tk.Label(self.FinesScambioQ,
+                                text="Portata [kg/h]")
+            self.portata.grid(row=7, column=0)
 
-        self.portata1=tk.Entry(self.FinesScambioQ)
-        self.portata1.grid(row=7, column=1)
+            self.portata1=tk.Entry(self.FinesScambioQ)
+            self.portata1.grid(row=7, column=1)
 
-        #empty row
-        empty_label2 = tk.Label(self.FinesScambioQ, text="")
-        empty_label2.grid(row=8, column=0)
+            #empty row
+            empty_label2 = tk.Label(self.FinesScambioQ, text="")
+            empty_label2.grid(row=8, column=0)
 
-        # Fluidi output
-        self.label_file_in= tk.Label(self.FinesScambioQ,
-                                    text="Fluidi in Output",
-                                    font=("Helvetica", 10, "bold"))
-        self.label_file_in.grid(row=9, column=2)
+            #! Fluidi output
+            self.label_file_in= tk.Label(self.FinesScambioQ,
+                                        text="Fluidi in Output",
+                                        font=("Helvetica", 10, "bold"))
+            self.label_file_in.grid(row=9, column=2)
 
+            #! Fluido 1 Out
+            self.fluido_out1 = tk.Button(
+                self.FinesScambioQ,
+                text="Fluido1_OUT",
+                bg="#D3D3D3",
+                command=lambda: self.FluidoOUT("Fluido1_OUT")
+            )
+            self.fluido_out1.grid(row=10, column=1)
 
-        # Fluido 1 Out
-        self.fluido_out1 = tk.Button(
-            self.FinesScambioQ,
-            text="Fluido1_OUT",
-            bg="#D3D3D3",
-            command=lambda: self.FluidoOUT("Fluido1_OUT")
-        )
-        self.fluido_out1.grid(row=10, column=1)
+            #! fluido risultante
+            self.mixture_out1_var = tk.StringVar()
+            self.fluido_out1_name=tk.Label(self.FinesScambioQ,
+                                        textvariable=self.mixture_out1_var)
+            self.fluido_out1_name.grid(row=11, column=1)
 
-        # fluido risultante
-        self.mixture_out1_var = tk.StringVar()
-        self.fluido_out1_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_out1_var)
-        self.fluido_out1_name.grid(row=11, column=1)
+            self.T_Label=tk.Label(self.FinesScambioQ,
+                                text="Temperatura [°C]")
+            self.T_Label.grid(row=12, column=0)
 
-        self.T_Label=tk.Label(self.FinesScambioQ,
-                            text="Temperatura [°C]")
-        self.T_Label.grid(row=12, column=0)
+            self.T1_out_Entry=tk.Entry(self.FinesScambioQ)
+            self.T1_out_Entry.grid(row=12, column=1)
 
-        self.T1_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.T1_out_Entry.grid(row=12, column=1)
+            self.P_Label=tk.Label(self.FinesScambioQ,
+                                text="Pressione [barg]")
+            self.P_Label.grid(row=13, column=0)
 
-        self.P_Label=tk.Label(self.FinesScambioQ,
-                            text="Pressione [barg]")
-        self.P_Label.grid(row=13, column=0)
+            self.P1_out_Entry=tk.Entry(self.FinesScambioQ)
+            self.P1_out_Entry.grid(row=13, column=1)
 
-        self.P1_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.P1_out_Entry.grid(row=13, column=1)
+            self.portata=tk.Label(self.FinesScambioQ,
+                                text="Portata [kg/h]")
+            self.portata.grid(row=14, column=0)
 
-        self.portata=tk.Label(self.FinesScambioQ, text="Portata [kg/h]")
-        self.portata.grid(row=14, column=0)
+            self.portata1_out=tk.Entry(self.FinesScambioQ)
+            self.portata1_out.grid(row=14, column=1)
 
-        self.portata1_out=tk.Entry(self.FinesScambioQ)
-        self.portata1_out.grid(row=14, column=1)
+            #! Fluido 2
+            self.fluido_in2 = tk.Button(
+                self.FinesScambioQ,
+                text="Fluido2_IN",
+                bg="#D3D3D3",
+                command=lambda: self.FluidoIN("Fluido2_IN")
+            )
+            self.fluido_in2.grid(row=3, column=2)
 
-        # Fluido 2
-        self.fluido_in2 = tk.Button(
-            self.FinesScambioQ,
-            text="Fluido2_IN",
-            bg="#D3D3D3",
-            command=lambda: self.FluidoIN("Fluido2_IN")
-        )
-        self.fluido_in2.grid(row=3, column=2)
+            #fluido risultante
+            self.mixture_in2_var=tk.StringVar()
+            self.fluido_in2_name=tk.Label(self.FinesScambioQ,
+                                        textvariable=self.mixture_in2_var)
+            self.fluido_in2_name.grid(row=4, column=2)
 
-        #fluido risultante
-        self.mixture_in2_var=tk.StringVar()
-        self.fluido_in2_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_in2_var)
-        self.fluido_in2_name.grid(row=4, column=2)
+            self.T2_in_Entry=tk.Entry(self.FinesScambioQ)
+            self.T2_in_Entry.grid(row=5, column=2)
 
-        self.T2_in_Entry=tk.Entry(self.FinesScambioQ)
-        self.T2_in_Entry.grid(row=5, column=2)
+            self.P2_in_Entry=tk.Entry(self.FinesScambioQ)
+            self.P2_in_Entry.grid(row=6, column=2)
 
-        self.P2_in_Entry=tk.Entry(self.FinesScambioQ)
-        self.P2_in_Entry.grid(row=6, column=2)
+            self.portata2=tk.Entry(self.FinesScambioQ)
+            self.portata2.grid(row=7, column=2)
 
-        self.portata2=tk.Entry(self.FinesScambioQ)
-        self.portata2.grid(row=7, column=2)
+            #! Fluido 2 Out
+            self.fluido_out2 = tk.Button(
+                self.FinesScambioQ,
+                text="Fluido2_OUT",
+                bg="#D3D3D3",
+                command=lambda: self.FluidoOUT("Fluido2_OUT")
+            )
+            self.fluido_out2.grid(row=10, column=2)
 
-        # Fluido 2 Out
-        self.fluido_out2 = tk.Button(
-            self.FinesScambioQ,
-            text="Fluido2_OUT",
-            bg="#D3D3D3",
-            command=lambda: self.FluidoOUT("Fluido2_OUT")
-        )
-        self.fluido_out2.grid(row=10, column=2)
+            #fluido risultante
+            self.mixture_out2_var=tk.StringVar()
+            self.fluido_out2_name=tk.Label(self.FinesScambioQ,
+                                        textvariable=self.mixture_out2_var)
+            self.fluido_out2_name.grid(row=11, column=2)
 
-        #fluido risultante
-        self.mixture_out2_var=tk.StringVar()
-        self.fluido_out2_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_out2_var)
-        self.fluido_out2_name.grid(row=11, column=2)
+            self.T2_out_Entry=tk.Entry(self.FinesScambioQ)
+            self.T2_out_Entry.grid(row=12, column=2)
 
-        self.T2_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.T2_out_Entry.grid(row=12, column=2)
+            self.P2_out_Entry=tk.Entry(self.FinesScambioQ)
+            self.P2_out_Entry.grid(row=13, column=2)
 
-        self.P2_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.P2_out_Entry.grid(row=13, column=2)
+            self.portata2_out=tk.Entry(self.FinesScambioQ)
+            self.portata2_out.grid(row=14, column=2)
 
-        self.portata2_out=tk.Entry(self.FinesScambioQ)
-        self.portata2_out.grid(row=14, column=2)
+            #!fluido 3
+            self.fluido_in3 = tk.Button(
+                self.FinesScambioQ,
+                text="Fluido3_IN",
+                bg="#D3D3D3",
+                command=lambda: self.FluidoIN("Fluido3_IN")
+            )
+            self.fluido_in3.grid(row=3, column=3)
 
-        #fluido 3
-        self.fluido_in3 = tk.Button(
-            self.FinesScambioQ,
-            text="Fluido3_IN",
-            bg="#D3D3D3",
-            command=lambda: self.FluidoIN("Fluido3_IN")
-        )
-        self.fluido_in3.grid(row=3, column=3)
+            #!fluido risultante
+            self.mixture_in3_var=tk.StringVar()
+            self.fluido_in3_name=tk.Label(self.FinesScambioQ,
+                                        textvariable=self.mixture_in3_var)
+            self.fluido_in3_name.grid(row=4, column=3)
 
-        #fluido risultante
-        self.mixture_in3_var=tk.StringVar()
-        self.fluido_in3_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_in3_var)
-        self.fluido_in3_name.grid(row=4, column=3)
+            self.T3_in_Entry=tk.Entry(self.FinesScambioQ)
+            self.T3_in_Entry.grid(row=5, column=3)
 
-        self.T3_in_Entry=tk.Entry(self.FinesScambioQ)
-        self.T3_in_Entry.grid(row=5, column=3)
+            self.P3_in_Entry=tk.Entry(self.FinesScambioQ)
+            self.P3_in_Entry.grid(row=6, column=3)
 
-        self.P3_in_Entry=tk.Entry(self.FinesScambioQ)
-        self.P3_in_Entry.grid(row=6, column=3)
+            self.portata3=tk.Entry(self.FinesScambioQ)
+            self.portata3.grid(row=7, column=3)
 
-        self.portata3=tk.Entry(self.FinesScambioQ)
-        self.portata3.grid(row=7, column=3)
+            #!fluido 3 out
+            self.fluido_out3 = tk.Button(
+                self.FinesScambioQ,
+                text="Fluido3_OUT",
+                bg="#D3D3D3",
+                command=lambda: self.FluidoOUT("Fluido3_OUT")
+            )
+            self.fluido_out3.grid(row=10, column=3)
 
-        #fluido 3 out
-        self.fluido_out3 = tk.Button(
-            self.FinesScambioQ,
-            text="Fluido3_OUT",
-            bg="#D3D3D3",
-            command=lambda: self.FluidoOUT("Fluido3_OUT")
-        )
-        self.fluido_out3.grid(row=10, column=3)
+            #!fluido risultante
+            self.mixture_out3_var=tk.StringVar()
+            self.fluido_out3_name=tk.Label(self.FinesScambioQ,
+                                        textvariable=self.mixture_out3_var)
+            self.fluido_out3_name.grid(row=11, column=3)
 
-        #fluido risultante
-        self.mixture_out3_var=tk.StringVar()
-        self.fluido_out3_name=tk.Label(self.FinesScambioQ,
-                                    textvariable=self.mixture_out3_var)
-        self.fluido_out3_name.grid(row=11, column=3)
+            self.T3_out_Entry=tk.Entry(self.FinesScambioQ)
+            self.T3_out_Entry.grid(row=12, column=3)
 
-        self.T3_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.T3_out_Entry.grid(row=12, column=3)
+            self.P3_out_Entry=tk.Entry(self.FinesScambioQ)
+            self.P3_out_Entry.grid(row=13, column=3)
 
-        self.P3_out_Entry=tk.Entry(self.FinesScambioQ)
-        self.P3_out_Entry.grid(row=13, column=3)
-
-        self.portata3_out=tk.Entry(self.FinesScambioQ)
-        self.portata3_out.grid(row=14, column=3)
+            self.portata3_out=tk.Entry(self.FinesScambioQ)
+            self.portata3_out.grid(row=14, column=3)
+        except AttributeError:
+            print("Errore")                
 
         #empty row
         empty_label3 = tk.Label(self.FinesScambioQ, text="")
         empty_label3.grid(row=15, column=0)
-        # OK Button
+        #! OK Button
         self.ok_button_chisura = tk.Button(
             self.FinesScambioQ,
             text="Calcola",
@@ -440,12 +504,30 @@ class Interfaccia:
 )
         self.ok_button_chisura.grid(row=16, column=1)
 
+        #! Close Button
         self.closeButtonQ = tk.Button(self.FinesScambioQ, 
                                     text="Chiudi",
                                     font=("Helvetica", 10, "bold"),
                                     bg="orange",
                                     command=lambda: self.distruggi(self.FinesScambioQ))
         self.closeButtonQ.grid(row=16, column=3)
+
+        try:
+            # Load the image file
+            img = Image.open(r"C:\Users\galloni\OneDrive - unibs.it\Corsi\Python\ScambiatoreCalore\MG.png")
+
+            # Resize the image
+            img = img.resize((100, 100), Image.LANCZOS)  # Use Image.LANCZOS instead of Image.ANTIALIAS
+
+            # Convert the image to a Tkinter-compatible photo image
+            tk_img = ImageTk.PhotoImage(img)
+
+            # Create a label and add the image to it
+            logo_label = tk.Label(self.FinesScambioQ, image=tk_img)
+            logo_label.image = tk_img  # keep a reference to the image to prevent it from being garbage collected
+            logo_label.grid(row=16, column=2)
+        except Exception as e:
+            print("Errore nel caricamento del logo: ", e)    
 
     def FluidoOUT(self, fluido_out):
         self.InserimentoFluidoOut = tk.Toplevel(self.root)
@@ -462,7 +544,7 @@ class Interfaccia:
         self.riga_vuota = tk.Label(self.InserimentoFluidoOut, text="")
         self.riga_vuota.grid(row=1, column=0)
 
-        # Crea una StringVar per ogni Entry
+        #! Crea una StringVar per ogni Entry
         try:
             self.QuantitaFC1_out_var = tk.StringVar()
             self.QuantitaFC2_out_var = tk.StringVar()
@@ -472,64 +554,69 @@ class Interfaccia:
         except AttributeError:
             print("Errore")
 
-        # Crea una lista di StringVars
-        self.Quantita_vars = [self.QuantitaFC1_out_var,
-                            self.QuantitaFC2_out_var,
-                            self.QuantitaFC3_out_var,
-                            self.QuantitaFC4_out_var,
-                            self.QuantitaFC5_out_var]
+        #! INSERIMENTO COMPOSIZIONE MISCELA
+        try:
+            # Crea una lista di StringVars
+            self.Quantita_vars = [self.QuantitaFC1_out_var,
+                                self.QuantitaFC2_out_var,
+                                self.QuantitaFC3_out_var,
+                                self.QuantitaFC4_out_var,
+                                self.QuantitaFC5_out_var]
 
-        # Crea una Entry per ogni StringVar
-        self.QuantitaFC1_out = tk.Entry(self.InserimentoFluidoOut, 
-                                        textvariable=self.QuantitaFC1_out_var)
-        self.QuantitaFC1_out.grid(row=2, column=1)
-        
-        self.QuantitaFC2_out = tk.Entry(self.InserimentoFluidoOut,
-                                    textvariable=self.QuantitaFC2_out_var)
-        self.QuantitaFC2_out.grid(row=3, column=1)
+            # Crea una Entry per ogni StringVar
+            self.QuantitaFC1_out = tk.Entry(self.InserimentoFluidoOut, 
+                                            textvariable=self.QuantitaFC1_out_var)
+            self.QuantitaFC1_out.grid(row=2, column=1)
+            
+            self.QuantitaFC2_out = tk.Entry(self.InserimentoFluidoOut,
+                                        textvariable=self.QuantitaFC2_out_var)
+            self.QuantitaFC2_out.grid(row=3, column=1)
 
-        self.QuantitaFC3_out = tk.Entry(self.InserimentoFluidoOut,
-                                        textvariable=self.QuantitaFC3_out_var)
-        self.QuantitaFC3_out.grid(row=4, column=1)
+            self.QuantitaFC3_out = tk.Entry(self.InserimentoFluidoOut,
+                                            textvariable=self.QuantitaFC3_out_var)
+            self.QuantitaFC3_out.grid(row=4, column=1)
 
-        self.QuantitaFC4_out = tk.Entry(self.InserimentoFluidoOut, 
-                                        textvariable=self.QuantitaFC4_out_var)
-        self.QuantitaFC4_out.grid(row=5, column=1)
+            self.QuantitaFC4_out = tk.Entry(self.InserimentoFluidoOut, 
+                                            textvariable=self.QuantitaFC4_out_var)
+            self.QuantitaFC4_out.grid(row=5, column=1)
 
-        self.QuantitaFC5_out = tk.Entry(self.InserimentoFluidoOut, 
-                                        textvariable=self.QuantitaFC5_out_var)
-        self.QuantitaFC5_out.grid(row=6, column=1)
+            self.QuantitaFC5_out = tk.Entry(self.InserimentoFluidoOut, 
+                                            textvariable=self.QuantitaFC5_out_var)
+            self.QuantitaFC5_out.grid(row=6, column=1)
 
-        self.FluidoC1_out = AutocompleteCombobox(self.InserimentoFluidoOut)
-        self.FluidoC1_out.set_completion_list(self.fluids)
-        self.FluidoC1_out.grid(row=2, column=0)
+            self.FluidoC1_out = AutocompleteCombobox(self.InserimentoFluidoOut)
+            self.FluidoC1_out.set_completion_list(self.fluids)
+            self.FluidoC1_out.grid(row=2, column=0)
 
-        self.FluidoC2_out=AutocompleteCombobox(self.InserimentoFluidoOut)
-        self.FluidoC2_out.set_completion_list(self.fluids)
-        self.FluidoC2_out.grid(row=3, column=0)
+            self.FluidoC2_out=AutocompleteCombobox(self.InserimentoFluidoOut)
+            self.FluidoC2_out.set_completion_list(self.fluids)
+            self.FluidoC2_out.grid(row=3, column=0)
 
-        self.FluidoC3_out=AutocompleteCombobox(self.InserimentoFluidoOut)
-        self.FluidoC3_out.set_completion_list(self.fluids)
-        self.FluidoC3_out.grid(row=4, column=0)
+            self.FluidoC3_out=AutocompleteCombobox(self.InserimentoFluidoOut)
+            self.FluidoC3_out.set_completion_list(self.fluids)
+            self.FluidoC3_out.grid(row=4, column=0)
 
-        self.FluidoC4_out=AutocompleteCombobox(self.InserimentoFluidoOut)
-        self.FluidoC4_out.set_completion_list(self.fluids)
-        self.FluidoC4_out.grid(row=5, column=0)
+            self.FluidoC4_out=AutocompleteCombobox(self.InserimentoFluidoOut)
+            self.FluidoC4_out.set_completion_list(self.fluids)
+            self.FluidoC4_out.grid(row=5, column=0)
 
-        self.FluidoC5_out=AutocompleteCombobox(self.InserimentoFluidoOut)
-        self.FluidoC5_out.set_completion_list(self.fluids)
-        self.FluidoC5_out.grid(row=6, column=0)
+            self.FluidoC5_out=AutocompleteCombobox(self.InserimentoFluidoOut)
+            self.FluidoC5_out.set_completion_list(self.fluids)
+            self.FluidoC5_out.grid(row=6, column=0)
 
-        # Crea la label rimanenza
-        self.rimanenza = tk.Label(self.InserimentoFluidoOut,
-                                text='1',
-                                font=("Helvetica", 10, "bold"))
-        self.rimanenza.grid(row=6, column=3)
+            # Crea la label rimanenza
+            self.rimanenza = tk.Label(self.InserimentoFluidoOut,
+                                    text='1',
+                                    font=("Helvetica", 10, "bold"))
+            self.rimanenza.grid(row=6, column=3)
 
-        # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
-        for quantita_var in self.Quantita_vars:
-            quantita_var.trace('w', self.aggiorna_rimanenza)
+            # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
+            for quantita_var in self.Quantita_vars:
+                quantita_var.trace('w', self.aggiorna_rimanenza)
+        except AttributeError:
+            print("Errore")
 
+        #! OK Button  
         self.ok_button_out = tk.Button(self.InserimentoFluidoOut,
                                         text="Inserisci",
                                         font=("Helvetica", 10, "bold"),
@@ -539,6 +626,7 @@ class Interfaccia:
         self.ok_button_out.bind('<Button-1>', lambda event: self.cambia_colore(fluido_out))
         
     def SalvataggioFluidoOUT(self, fluido_out):
+        #! Salvataggio dei fluidi in output
         try:
             self.Fluido1_out=self.FluidoC1_out.get()
             self.Fluido2_out=self.FluidoC2_out.get()
@@ -553,10 +641,22 @@ class Interfaccia:
             self.Pressione_out=self.Pressione_out.get()
             self.Temperatura_out=self.Temperatura_out.get()
             self.Portata_out=self.Portata_out.get()
-            SpecieChimiche_out=[self.Fluido1_out, self.Fluido2_out, self.Fluido3_out, self.Fluido4_out, self.Fluido5_out]
-            Quantita_out=[self.Quantita1_out, self.Quantita2_out, self.Quantita3_out, self.Quantita4_out, self.Quantita5_out]
+            SpecieChimiche_out=[self.Fluido1_out,
+                            self.Fluido2_out,
+                            self.Fluido3_out,
+                            self.Fluido4_out,
+                            self.Fluido5_out]
+            Quantita_out=[self.Quantita1_out,
+                        self.Quantita2_out,
+                        self.Quantita3_out,
+                        self.Quantita4_out,
+                        self.Quantita5_out]
             key = f"Fluido_{len(self.fluido_results_out) + 1}"
-            self.fluido_results_out[key] = (SpecieChimiche_out, Quantita_out, self.Pressione_out, self.Temperatura_out, self.Portata_out)
+            self.fluido_results_out[key] = (SpecieChimiche_out, 
+                                            Quantita_out, 
+                                            self.Pressione_out, 
+                                            self.Temperatura_out, 
+                                            self.Portata_out)
             SpecieChimiche_out = [comp for comp in SpecieChimiche_out if comp]
             Quantita_out = [qty for qty in Quantita_out if qty]
             mixture_out = "&".join(f"{comp}[{qty}]" for comp, qty in zip(SpecieChimiche_out, Quantita_out))
@@ -582,80 +682,85 @@ class Interfaccia:
                                     fg="blue")
         self.LabelFluido.grid(row=0, column=0, columnspan=2)
 
-        # Crea una StringVar per ogni Entry
+        #! INSERIMENTO DELLA COMPOSIZIONE DEL FLUIDO
         try:
-            self.QuantitaFC1_var = tk.StringVar()
-            self.QuantitaFC2_var = tk.StringVar()
-            self.QuantitaFC3_var = tk.StringVar()
-            self.QuantitaFC4_var = tk.StringVar()
-            self.QuantitaFC5_var = tk.StringVar()
+            # Crea una StringVar per ogni Entry
+            try:
+                self.QuantitaFC1_var = tk.StringVar()
+                self.QuantitaFC2_var = tk.StringVar()
+                self.QuantitaFC3_var = tk.StringVar()
+                self.QuantitaFC4_var = tk.StringVar()
+                self.QuantitaFC5_var = tk.StringVar()
+            except AttributeError:
+                print("Errore")
+            # Crea una lista di StringVars
+            self.Quantita_vars = [self.QuantitaFC1_var,
+                                self.QuantitaFC2_var,
+                                self.QuantitaFC3_var,
+                                self.QuantitaFC4_var,
+                                self.QuantitaFC5_var]
+
+            # empty row
+            self.riga_vuota = tk.Label(self.InserimentoFluido, text="")
+            self.riga_vuota.grid(row=1, column=0)
+
+            # Crea una Entry per ogni StringVar
+            self.QuantitaFC1 = tk.Entry(self.InserimentoFluido, 
+                                        textvariable=self.QuantitaFC1_var)
+            self.QuantitaFC1.grid(row=2, column=1)
+
+            self.QuantitaFC2 = tk.Entry(self.InserimentoFluido,
+                                        textvariable=self.QuantitaFC2_var)
+            self.QuantitaFC2.grid(row=3, column=1)
+
+            self.QuantitaFC3 = tk.Entry(self.InserimentoFluido, 
+                                        textvariable=self.QuantitaFC3_var)
+            self.QuantitaFC3.grid(row=4, column=1)
+
+            self.QuantitaFC4 = tk.Entry(self.InserimentoFluido, 
+                                        textvariable=self.QuantitaFC4_var)
+            self.QuantitaFC4.grid(row=5, column=1)
+
+            self.QuantitaFC5 = tk.Entry(self.InserimentoFluido, 
+                                        textvariable=self.QuantitaFC5_var)
+            self.QuantitaFC5.grid(row=6, column=1)
+
+            # self.FluidoC1=ttk.Combobox(self.InserimentoFluido, 
+            #                         values=self.fluids)
+            # self.FluidoC1.grid(row=2, column=0)
+            self.FluidoC1 = AutocompleteCombobox(self.InserimentoFluido)
+            self.FluidoC1.set_completion_list(self.fluids)
+            self.FluidoC1.grid(row=2, column=0)
+
+            self.FluidoC2= AutocompleteCombobox(self.InserimentoFluido)
+            self.FluidoC2.set_completion_list(self.fluids)
+            self.FluidoC2.grid(row=3, column=0)
+
+            self.FluidoC3= AutocompleteCombobox(self.InserimentoFluido)
+            self.FluidoC3.set_completion_list(self.fluids)
+            self.FluidoC3.grid(row=4, column=0)
+
+            self.FluidoC4= AutocompleteCombobox(self.InserimentoFluido)
+            self.FluidoC4.set_completion_list(self.fluids)
+            self.FluidoC4.grid(row=5, column=0)
+
+            self.FluidoC5= AutocompleteCombobox(self.InserimentoFluido)
+            self.FluidoC5.set_completion_list(self.fluids)
+            self.FluidoC5.grid(row=6, column=0)
+
+            # Crea la label rimanenza
+            self.rimanenza = tk.Label(self.InserimentoFluido,
+                                    text='1',
+                                    font=("Helvetica", 10, "bold"))
+            self.rimanenza.grid(row=6, column=3)
+
+            # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
+            for quantita_var in self.Quantita_vars:
+                quantita_var.trace('w', self.aggiorna_rimanenza)
         except AttributeError:
             print("Errore")
-        # Crea una lista di StringVars
-        self.Quantita_vars = [self.QuantitaFC1_var,
-                            self.QuantitaFC2_var,
-                            self.QuantitaFC3_var,
-                            self.QuantitaFC4_var,
-                            self.QuantitaFC5_var]
 
-        # empty row
-        self.riga_vuota = tk.Label(self.InserimentoFluido, text="")
-        self.riga_vuota.grid(row=1, column=0)
-
-        # Crea una Entry per ogni StringVar
-        self.QuantitaFC1 = tk.Entry(self.InserimentoFluido, 
-                                    textvariable=self.QuantitaFC1_var)
-        self.QuantitaFC1.grid(row=2, column=1)
-
-        self.QuantitaFC2 = tk.Entry(self.InserimentoFluido,
-                                    textvariable=self.QuantitaFC2_var)
-        self.QuantitaFC2.grid(row=3, column=1)
-
-        self.QuantitaFC3 = tk.Entry(self.InserimentoFluido, 
-                                    textvariable=self.QuantitaFC3_var)
-        self.QuantitaFC3.grid(row=4, column=1)
-
-        self.QuantitaFC4 = tk.Entry(self.InserimentoFluido, 
-                                    textvariable=self.QuantitaFC4_var)
-        self.QuantitaFC4.grid(row=5, column=1)
-
-        self.QuantitaFC5 = tk.Entry(self.InserimentoFluido, 
-                                    textvariable=self.QuantitaFC5_var)
-        self.QuantitaFC5.grid(row=6, column=1)
-
-        # self.FluidoC1=ttk.Combobox(self.InserimentoFluido, 
-        #                         values=self.fluids)
-        # self.FluidoC1.grid(row=2, column=0)
-        self.FluidoC1 = AutocompleteCombobox(self.InserimentoFluido)
-        self.FluidoC1.set_completion_list(self.fluids)
-        self.FluidoC1.grid(row=2, column=0)
-
-        self.FluidoC2= AutocompleteCombobox(self.InserimentoFluido)
-        self.FluidoC2.set_completion_list(self.fluids)
-        self.FluidoC2.grid(row=3, column=0)
-
-        self.FluidoC3= AutocompleteCombobox(self.InserimentoFluido)
-        self.FluidoC3.set_completion_list(self.fluids)
-        self.FluidoC3.grid(row=4, column=0)
-
-        self.FluidoC4= AutocompleteCombobox(self.InserimentoFluido)
-        self.FluidoC4.set_completion_list(self.fluids)
-        self.FluidoC4.grid(row=5, column=0)
-
-        self.FluidoC5= AutocompleteCombobox(self.InserimentoFluido)
-        self.FluidoC5.set_completion_list(self.fluids)
-        self.FluidoC5.grid(row=6, column=0)
-
-        # Crea la label rimanenza
-        self.rimanenza = tk.Label(self.InserimentoFluido,
-                                text='1',
-                                font=("Helvetica", 10, "bold"))
-        self.rimanenza.grid(row=6, column=3)
-
-        # Chiama aggiorna_rimanenza ogni volta che una StringVar cambia
-        for quantita_var in self.Quantita_vars:
-            quantita_var.trace('w', self.aggiorna_rimanenza)
-
+        #! OK Button
         self.ok_button = tk.Button(self.InserimentoFluido,
                                     text="Inserisci", 
                                     font=("Helvetica", 10, "bold"),
@@ -677,6 +782,7 @@ class Interfaccia:
         self.rimanenza.config(text=rimanenza)
 
     def SalvataggioFluidoIN(self,fluido_in):
+        #! Salvataggio dei fluidi in input
         try:
             self.Fluido1=self.FluidoC1.get()
             self.Fluido2=self.FluidoC2.get()
@@ -691,10 +797,22 @@ class Interfaccia:
             self.Pressione=self.Pressione.get()
             self.Temperatura=self.Temperatura.get()
             self.Portata=self.Portata_in.get()
-            SpecieChimiche=[self.Fluido1, self.Fluido2, self.Fluido3, self.Fluido4, self.Fluido5]
-            Quantita=[self.Quantita1, self.Quantita2, self.Quantita3, self.Quantita4, self.Quantita5]
+            SpecieChimiche=[self.Fluido1,
+                            self.Fluido2,
+                            self.Fluido3,
+                            self.Fluido4,
+                            self.Fluido5]
+            Quantita=[self.Quantita1,
+                    self.Quantita2,
+                    self.Quantita3,
+                    self.Quantita4,
+                    self.Quantita5]
             key = f"Fluido_{len(self.fluido_results_in) + 1}"
-            self.fluido_results_in[key] = (SpecieChimiche, Quantita, self.Pressione, self.Temperatura, self.Portata)
+            self.fluido_results_in[key] = (SpecieChimiche,
+                                        Quantita,
+                                        self.Pressione,
+                                        self.Temperatura,
+                                        self.Portata)
             SpecieChimiche = [comp for comp in SpecieChimiche if comp]
             Quantita = [qty for qty in Quantita if qty]
             mixtu = "&".join(f"{comp}[{qty}]" for comp, qty in zip(SpecieChimiche, Quantita))
@@ -736,6 +854,7 @@ class Interfaccia:
         self.fluido_results_out = self.get_fluido_results_out()
 
     def SalvataggioFluidoTSat(self):
+        #! Salvataggio dei fluidi in input
         try:
             self.Fluido1=self.FluidoC1.get()
             self.Fluido2=self.FluidoC2.get()
@@ -949,6 +1068,7 @@ class Interfaccia:
             return None
 
     def close_window(self):
+        #! Salvataggio delle condizioni di prova
         try:
             self.T1_in = self.T1_in_Entry.get()
             self.P1_in = self.P1_in_Entry.get()
